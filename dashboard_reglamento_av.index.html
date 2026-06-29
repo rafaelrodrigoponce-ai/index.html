@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reglamento Áreas Verdes y Arbolado Urbano – MML 2026</title>
+<style>
+  :root {
+    --verde-oscuro: #1a4731;
+    --verde-medio: #2d7a4f;
+    --verde-claro: #4caf7d;
+    --verde-palido: #e8f5ee;
+    --verde-mint: #c8e6d0;
+    --amarillo: #f4a225;
+    --naranja: #e07b39;
+    --rojo: #c0392b;
+    --azul: #2980b9;
+    --azul-claro: #d6eaf8;
+    --gris-oscuro: #2c3e50;
+    --gris-medio: #7f8c8d;
+    --gris-claro: #ecf0f1;
+    --blanco: #ffffff;
+    --sombra: 0 4px 16px rgba(0,0,0,0.10);
+    --radio: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f0f4f1;
+    color: var(--gris-oscuro);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--verde-oscuro) 0%, var(--verde-medio) 60%, var(--verde-claro) 100%);
+    color: white;
+    padding: 28px 40px 22px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-icon { font-size: 2.8rem; }
+  .header-title { font-size: 1.15rem; font-weight: 700; line-height: 1.3; }
+  .header-sub { font-size: 0.8rem; opacity: 0.82; margin-top: 3px; }
+  .header-badge {
+    margin-left: auto;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* TABS */
+  .tabs-wrapper {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: sticky; top: 82px; z-index: 90;
+    overflow-x: auto;
+  }
+  .tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 24px;
+    min-width: max-content;
+  }
+  .tab {
+    padding: 14px 18px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--gris-medio);
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tab:hover { color: var(--verde-medio); }
+  .tab.active { color: var(--verde-oscuro); border-bottom-color: var(--verde-claro); }
+
+  /* MAIN */
+  .main { padding: 28px 40px; max-width: 1300px; margin: 0 auto; }
+
+  /* PANELS */
+  .panel { display: none; animation: fadein 0.25s; }
+  .panel.active { display: block; }
+  @keyframes fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  /* CARDS GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+  .card {
+    background: white;
+    border-radius: var(--radio);
+    padding: 22px;
+    box-shadow: var(--sombra);
+    border-top: 4px solid var(--verde-claro);
+  }
+  .card-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .card p { font-size: 0.83rem; color: #444; line-height: 1.6; }
+
+  /* STAT CARDS */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  .stat {
+    background: white;
+    border-radius: var(--radio);
+    padding: 18px 20px;
+    box-shadow: var(--sombra);
+    text-align: center;
+    border-bottom: 4px solid var(--verde-claro);
+  }
+  .stat-num { font-size: 2.2rem; font-weight: 800; color: var(--verde-oscuro); }
+  .stat-label { font-size: 0.73rem; color: var(--gris-medio); margin-top: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* TITLE CARDS (overview) */
+  .titulo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  .titulo-card {
+    background: white;
+    border-radius: var(--radio);
+    padding: 18px;
+    box-shadow: var(--sombra);
+    cursor: pointer;
+    border-left: 5px solid var(--verde-claro);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .titulo-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.14); }
+  .titulo-card .num { font-size: 0.7rem; font-weight: 700; color: var(--verde-medio); text-transform: uppercase; letter-spacing: 0.07em; }
+  .titulo-card .name { font-size: 0.82rem; font-weight: 700; color: var(--gris-oscuro); margin-top: 4px; line-height: 1.35; }
+  .titulo-card .arts { font-size: 0.72rem; color: var(--gris-medio); margin-top: 8px; }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 18px; margin-top: 4px;
+  }
+  .section-header h2 { font-size: 1.05rem; font-weight: 700; color: var(--verde-oscuro); }
+  .section-header .divider { flex: 1; height: 2px; background: var(--verde-mint); border-radius: 2px; }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  .badge-verde { background: var(--verde-palido); color: var(--verde-oscuro); }
+  .badge-amarillo { background: #fef3e2; color: #b36a00; }
+  .badge-rojo { background: #fdecea; color: var(--rojo); }
+  .badge-azul { background: var(--azul-claro); color: #1a5e8a; }
+
+  /* PROCEDURE FLOW */
+  .flow-container { display: flex; align-items: stretch; gap: 0; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 8px; }
+  .flow-step {
+    background: white;
+    border-radius: 10px;
+    padding: 14px 16px;
+    min-width: 155px;
+    max-width: 175px;
+    box-shadow: var(--sombra);
+    flex-shrink: 0;
+    border-top: 4px solid var(--verde-claro);
+    position: relative;
+  }
+  .flow-step .step-num {
+    width: 26px; height: 26px;
+    background: var(--verde-medio);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .flow-step .step-title { font-size: 0.78rem; font-weight: 700; color: var(--gris-oscuro); line-height: 1.3; }
+  .flow-step .step-desc { font-size: 0.7rem; color: var(--gris-medio); margin-top: 5px; line-height: 1.4; }
+  .flow-arrow { display: flex; align-items: center; padding: 0 6px; color: var(--verde-claro); font-size: 1.4rem; flex-shrink: 0; }
+
+  /* ACTOR TABLE */
+  .actor-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .actor-table th { background: var(--verde-oscuro); color: white; padding: 10px 14px; text-align: left; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .actor-table tr:nth-child(even) td { background: var(--verde-palido); }
+  .actor-table td { padding: 10px 14px; border-bottom: 1px solid #e0e0e0; vertical-align: top; line-height: 1.5; }
+  .actor-table tr:hover td { background: var(--verde-mint); }
+
+  /* LIST ITEMS */
+  .list-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: var(--verde-palido);
+    margin-bottom: 7px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .list-item .icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* REQUIREMENT LIST */
+  .req-list { list-style: none; }
+  .req-list li {
+    padding: 7px 12px;
+    font-size: 0.8rem;
+    border-left: 3px solid var(--verde-claro);
+    margin-bottom: 5px;
+    background: #fafafa;
+    border-radius: 0 6px 6px 0;
+    line-height: 1.5;
+    color: #333;
+  }
+
+  /* ANNEX GRID */
+  .annex-card {
+    background: white;
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: var(--sombra);
+    border-left: 4px solid var(--azul);
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .annex-num {
+    background: var(--azul);
+    color: white;
+    border-radius: 8px;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .annex-title { font-size: 0.8rem; font-weight: 700; color: var(--gris-oscuro); line-height: 1.4; }
+
+  /* ACCORDION */
+  .accordion { margin-bottom: 10px; border-radius: 10px; overflow: hidden; box-shadow: var(--sombra); }
+  .accordion-header {
+    background: white;
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.85rem; font-weight: 700; color: var(--verde-oscuro);
+    border-left: 4px solid var(--verde-claro);
+    transition: background 0.15s;
+  }
+  .accordion-header:hover { background: var(--verde-palido); }
+  .accordion-header .chevron { transition: transform 0.2s; font-size: 0.85rem; color: var(--verde-medio); }
+  .accordion-header.open .chevron { transform: rotate(180deg); }
+  .accordion-body { background: #fafafa; padding: 0 18px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.2s; }
+  .accordion-body.open { padding: 14px 18px; max-height: 600px; }
+
+  /* TOOLTIP */
+  .tooltip-wrap { position: relative; display: inline-block; cursor: help; border-bottom: 1px dashed var(--verde-medio); }
+  .tooltip-text {
+    display: none;
+    position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%);
+    background: var(--gris-oscuro); color: white;
+    padding: 6px 10px; border-radius: 7px; font-size: 0.72rem;
+    width: 200px; text-align: center; z-index: 200;
+    line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .tooltip-wrap:hover .tooltip-text { display: block; }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: linear-gradient(135deg, var(--verde-palido), #f0fff4);
+    border: 1px solid var(--verde-mint);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 18px;
+    font-size: 0.83rem;
+    line-height: 1.65;
+    color: #333;
+  }
+  .highlight strong { color: var(--verde-oscuro); }
+
+  .alert-box {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    font-size: 0.81rem;
+    line-height: 1.6;
+    color: #5a3e00;
+    display: flex; gap: 10px;
+  }
+
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+
+  /* PILLAR CARDS */
+  .pillar {
+    background: white;
+    border-radius: var(--radio);
+    padding: 20px;
+    box-shadow: var(--sombra);
+    border-top: 4px solid;
+    text-align: center;
+  }
+  .pillar .p-icon { font-size: 2rem; margin-bottom: 8px; }
+  .pillar .p-title { font-size: 0.85rem; font-weight: 700; color: var(--gris-oscuro); }
+  .pillar .p-desc { font-size: 0.75rem; color: var(--gris-medio); margin-top: 6px; line-height: 1.5; }
+
+  /* COMPARE TABLE */
+  .cmp-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .cmp-table th { padding: 10px 14px; text-align: center; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+  .cmp-table td { padding: 9px 14px; border: 1px solid #e0e0e0; text-align: center; vertical-align: middle; }
+  .cmp-table tr:first-child th:first-child { border-radius: 10px 0 0 0; }
+  .cmp-table .row-label { text-align: left; font-weight: 600; color: var(--gris-oscuro); background: #fafafa; }
+  .check { color: #2ecc71; font-size: 1rem; }
+  .cross { color: #e74c3c; font-size: 1rem; }
+  .cond { color: var(--amarillo); font-size: 0.85rem; }
+
+  @media (max-width: 900px) {
+    .main { padding: 16px; }
+    .stat-grid, .titulo-grid, .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .header { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-icon">🌳</div>
+  <div>
+    <div class="header-title">Reglamento de la Ordenanza N° XXXX-2026-MML</div>
+    <div class="header-sub">Gestión Integral, Conservación y Mantenimiento de Áreas Verdes y Arbolado Urbano · Provincia de Lima</div>
+  </div>
+  <div class="header-badge">📅 26 de junio de 2026</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <div class="tab active" onclick="showPanel('resumen')">🏠 Resumen</div>
+    <div class="tab" onclick="showPanel('sistema')">🗺️ Sistema Metropolitano</div>
+    <div class="tab" onclick="showPanel('procedimientos')">📋 Procedimientos</div>
+    <div class="tab" onclick="showPanel('arbolado')">🌲 Tratamientos Arbóreos</div>
+    <div class="tab" onclick="showPanel('plantones')">🌱 Plantones y Plantación</div>
+    <div class="tab" onclick="showPanel('compensacion')">⚖️ Compensación</div>
+    <div class="tab" onclick="showPanel('participacion')">🤝 Participación Privada</div>
+    <div class="tab" onclick="showPanel('educacion')">📚 Educación</div>
+    <div class="tab" onclick="showPanel('anexos')">📎 Anexos</div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════
+     PANEL: RESUMEN
+══════════════════════════════════════════════ -->
+<div class="panel active" id="panel-resumen">
+
+  <!-- Stats -->
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="stat-num">96</div>
+      <div class="stat-label">Artículos</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">8</div>
+      <div class="stat-label">Títulos</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">14</div>
+      <div class="stat-label">Anexos técnicos</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">43+</div>
+      <div class="stat-label">Distritos alcanzados</div>
+    </div>
+  </div>
+
+  <!-- Highlight -->
+  <div class="highlight mb-24">
+    <strong>🎯 Objeto del Reglamento:</strong> Desarrollar las disposiciones de la Ordenanza N° XXXX-2026-MML para garantizar la gestión integral, conservación y mantenimiento de las <strong>áreas verdes de uso público</strong> y del <strong>arbolado urbano</strong> en la provincia de Lima, asegurando intervenciones técnicas, uniformes y predecibles.
+  </div>
+
+  <!-- Títulos grid -->
+  <div class="section-header mb-16">
+    <h2>Estructura del Reglamento</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="titulo-grid mb-24">
+    <div class="titulo-card" style="border-left-color:#2d7a4f" onclick="showPanel('resumen')">
+      <div class="num">Título I</div>
+      <div class="name">Disposiciones Generales</div>
+      <div class="arts">Arts. 1–4 · Objeto, finalidad, alcance, definiciones</div>
+    </div>
+    <div class="titulo-card" style="border-left-color:#4caf7d" onclick="showPanel('sistema')">
+      <div class="num">Título II</div>
+      <div class="name">Sistema Metropolitano e Instrumentos</div>
+      <div class="arts">Arts. 5–25 · PLAMAVE, PDAV, inventarios, valorización</div>
+    </div>
+    <div class="titulo-card" style="border-left-color:#f4a225" onclick="showPanel('procedimientos')">
+      <div class="num">Título III</div>
+      <div class="name">Procedimientos sobre Áreas Verdes</div>
+      <div class="arts">Arts. 26–44 · Intervención, infraestructura, afectación</div>
+    </div>
+    <div class="titulo-card" style="border-left-color:#e07b39" onclick="showPanel('arbolado')">
+      <div class="num">Título IV</div>
+      <div class="name">Tratamientos del Arbolado Urbano</div>
+      <div class="arts">Arts. 45–61 · Tala, traslado, poda severa, emergencia</div>
+    </div>
+    <div class="titulo-card" style="border-left-color:#27ae60" onclick="showPanel('plantones')">
+      <div class="num">Título V</div>
+      <div class="name">Manejo de Plantones de Vivero</div>
+      <div class="arts">Arts. 62–69 · Calidad, sanidad, cepellones</div>
+    </div>
+    <div class="titulo-card" style="border-left-color:#16a085" onclick="showPanel('plantones')">
+      <div class="num">Título VI</div>
+      <div class="name">Consideraciones de Plantación</div>
+      <div class="arts">Arts. 70–83 · Suelo, especie, hoyadura, tutorado</div>
+    </div>
+    <div class="titulo-card" style="border-left-color:#c0392b" onclick="showPanel('compensacion')">
+      <div class="num">Título VII (V)</div>
+      <div class="name">Compensación, Supervisión y Cumplimiento</div>
+      <div class="arts">Arts. 84–86 · Compensación ambiental</div>
+    </div>
+    <div class="titulo-card" style="border-left-color:#8e44ad" onclick="showPanel('participacion')">
+      <div class="num">Título VI–VIII</div>
+      <div class="name">Part. Privada · Educación · Disposiciones</div>
+      <div class="arts">Arts. 87–96 · Concesiones, concursos, agricultura</div>
+    </div>
+  </div>
+
+  <!-- Actores principales -->
+  <div class="section-header mb-16">
+    <h2>Actores del Sistema</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div style="background:white; border-radius:var(--radio); box-shadow:var(--sombra); overflow:hidden; margin-bottom:24px;">
+    <table class="actor-table">
+      <thead>
+        <tr>
+          <th>Actor</th>
+          <th>Sigla</th>
+          <th>Rol principal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Municipalidad Metropolitana de Lima</strong></td>
+          <td><span class="badge badge-verde">MML</span></td>
+          <td>Autoridad rectora del sistema; aprueba el PLAMAVE; emite resoluciones metropolitanas</td>
+        </tr>
+        <tr>
+          <td><strong>Subgerencia de Gestión Ambiental</strong></td>
+          <td><span class="badge badge-verde">SGA</span></td>
+          <td>Autoriza tala, traslado y poda severa; supervisa compensaciones; valida inventarios</td>
+        </tr>
+        <tr>
+          <td><strong>Gerencia de Servicios a la Ciudad y Gestión Ambiental</strong></td>
+          <td><span class="badge badge-verde">GSCGA</span></td>
+          <td>Articula y dictamina el PLAMAVE; conduce el Concurso "Lima Ciudad Jardín"</td>
+        </tr>
+        <tr>
+          <td><strong>Subgerencia de Servicios a la Ciudad</strong></td>
+          <td><span class="badge badge-verde">SSC</span></td>
+          <td>Evalúa en primera instancia solicitudes en el Cercado de Lima</td>
+        </tr>
+        <tr>
+          <td><strong>Municipalidades Distritales</strong></td>
+          <td><span class="badge badge-azul">43 distritos</span></td>
+          <td>Elaboran PDAV e inventarios; gestionan arbolado no consolidado; ejecutan compensaciones</td>
+        </tr>
+        <tr>
+          <td><strong>SERPAR</strong></td>
+          <td><span class="badge badge-azul">SERPAR</span></td>
+          <td>Implementa y gestiona la Escuela Metropolitana de Jardineros</td>
+        </tr>
+        <tr>
+          <td><strong>Entidades administradoras</strong></td>
+          <td><span class="badge badge-amarillo">Esp.</span></td>
+          <td>Administran parques zonales, metropolitanos y áreas especiales</td>
+        </tr>
+        <tr>
+          <td><strong>Comisión Ambiental Metropolitana</strong></td>
+          <td><span class="badge badge-amarillo">CAMET</span></td>
+          <td>Participa cuando la materia lo requiere</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Siglas rápidas -->
+  <div class="section-header mb-16">
+    <h2>Siglas clave del Reglamento</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="grid-4">
+    <div class="list-item"><span class="icon">📐</span><div><strong>PLAMAVE</strong> — Plan Metropolitano de Áreas Verdes</div></div>
+    <div class="list-item"><span class="icon">📐</span><div><strong>PDAV</strong> — Plan Distrital de Áreas Verdes</div></div>
+    <div class="list-item"><span class="icon">🗄️</span><div><strong>SMIA</strong> — Sistema Metropolitano de Información Ambiental</div></div>
+    <div class="list-item"><span class="icon">📋</span><div><strong>IT</strong> — Informe Técnico</div></div>
+    <div class="list-item"><span class="icon">⚠️</span><div><strong>ITGR</strong> — IT de Gestión del Riesgo</div></div>
+    <div class="list-item"><span class="icon">📏</span><div><strong>DAP</strong> — Diámetro a la Altura del Pecho</div></div>
+    <div class="list-item"><span class="icon">🌀</span><div><strong>ZPA</strong> — Zona de Protección de la Especie Arbórea</div></div>
+    <div class="list-item"><span class="icon">⚖️</span><div><strong>CISA</strong> — Cuadro de Infracciones y Sanciones</div></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL: SISTEMA METROPOLITANO
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-sistema">
+
+  <div class="section-header mb-16">
+    <h2>Sistema Metropolitano de Áreas Verdes</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="highlight mb-24">
+    El Sistema funciona mediante la <strong>aplicación articulada</strong> de instrumentos de planificación, inventarios, reportes, guías técnicas y procedimientos de evaluación, coordinados entre la MML, municipalidades distritales y demás actores (Art. 5).
+  </div>
+
+  <!-- Instrumentos -->
+  <div class="grid-3 mb-24">
+    <div class="pillar" style="border-top-color:#2d7a4f">
+      <div class="p-icon">📊</div>
+      <div class="p-title">PLAMAVE</div>
+      <div class="p-desc">Plan Metropolitano de Áreas Verdes. Elaborado por la SGA, articulado por la GSCGA y aprobado por el Concejo Metropolitano (Art. 10)</div>
+    </div>
+    <div class="pillar" style="border-top-color:#4caf7d">
+      <div class="p-icon">📋</div>
+      <div class="p-title">PDAV</div>
+      <div class="p-desc">Plan Distrital de Áreas Verdes. Elaborado por cada municipalidad distrital con horizonte de 5 años (Art. 11). Reporte anual obligatorio.</div>
+    </div>
+    <div class="pillar" style="border-top-color:#f4a225">
+      <div class="p-icon">🗃️</div>
+      <div class="p-title">Inventarios</div>
+      <div class="p-desc">Inventario Distrital de Áreas Verdes + Inventario de Arbolado Urbano. Formato único en 4 hojas Excel. Actualización anual (Arts. 13–16).</div>
+    </div>
+    <div class="pillar" style="border-top-color:#e07b39">
+      <div class="p-icon">💰</div>
+      <div class="p-title">Valorización Económica</div>
+      <div class="p-desc">Dos metodologías diferenciadas: arbolado urbano (ISA adaptada) y áreas verdes (Norma Granada adaptada) (Arts. 17–19).</div>
+    </div>
+    <div class="pillar" style="border-top-color:#2980b9">
+      <div class="p-icon">📄</div>
+      <div class="p-title">Plan de Manejo</div>
+      <div class="p-desc">Documento técnico obligatorio en toda intervención que afecte áreas verdes o arbolado. Tipos: general, tala, poda severa, traslado (Arts. 20–25).</div>
+    </div>
+    <div class="pillar" style="border-top-color:#8e44ad">
+      <div class="p-icon">🌐</div>
+      <div class="p-title">SMIA</div>
+      <div class="p-desc">Sistema Metropolitano de Información Ambiental. Concentra inventarios, planes y reportes de todos los actores del sistema.</div>
+    </div>
+  </div>
+
+  <!-- PDAV contenido -->
+  <div class="section-header mb-16">
+    <h2>Contenido mínimo del PDAV (Art. 11)</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="grid-2 mb-24">
+    <div class="card">
+      <div class="card-title">📌 Diagnóstico y brechas</div>
+      <ul class="req-list">
+        <li>Diagnóstico del estado de áreas verdes y arbolado</li>
+        <li>Identificación de brechas de cobertura, accesibilidad, riego y sostenibilidad hídrica</li>
+        <li>Objetivos, indicadores y metas (corto, mediano y largo plazo)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">💧 Agua y riego</div>
+      <ul class="req-list">
+        <li>Tipos de riego por m² actualmente existentes</li>
+        <li>Fuentes de agua por m² de área verde</li>
+        <li>Estrategias de sustitución de agua potable por aguas residuales tratadas</li>
+        <li>Implementación de riego tecnificado</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🌳 Arborización y viveros</div>
+      <ul class="req-list">
+        <li>Estrategias de arborización urbana e incremento de cobertura</li>
+        <li>Fortalecimiento de viveros municipales y producción vegetal</li>
+        <li>Compostaje y valorización de residuos vegetales</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">📅 Seguimiento</div>
+      <ul class="req-list">
+        <li>Cronograma de implementación y matriz de seguimiento</li>
+        <li>Reporte anual con indicadores de avance (Art. 12)</li>
+        <li>Presupuesto asignado y estimado para el siguiente período</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Inventario -->
+  <div class="section-header mb-16">
+    <h2>Contenido mínimo de los Inventarios (Art. 15)</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="grid-2 mb-24">
+    <div class="card" style="border-top-color:#4caf7d">
+      <div class="card-title">🏞️ Inventario de Áreas Verdes</div>
+      <ul class="req-list">
+        <li>Identificación y tipo de área verde (Anexo II de la Ordenanza)</li>
+        <li>Ubicación georreferenciada y por frontis de predio</li>
+        <li>Superficie total y superficie con cobertura vegetal</li>
+        <li>Accesibilidad, sistema de riego y fuente de agua</li>
+        <li>Estado de conservación, infraestructura y mobiliario</li>
+        <li>Responsable de administración y mantenimiento</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top-color:#2d7a4f">
+      <div class="card-title">🌲 Inventario del Arbolado Urbano</div>
+      <ul class="req-list">
+        <li>Especie, nombre común, ubicación georreferenciada y dasometría</li>
+        <li>Estado físico, sanitario y estructural</li>
+        <li>Condición de riesgo</li>
+        <li>Tratamientos requeridos</li>
+        <li>Formato: libro Excel con 4 hojas (1A, 1B, 2A, 2B)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Valorización -->
+  <div class="section-header mb-16">
+    <h2>Valorización Económica (Arts. 17–19)</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="grid-2">
+    <div class="card" style="border-top-color:#e07b39">
+      <div class="card-title">🌳 Arbolado Urbano (Art. 18)</div>
+      <p>Metodología basada en la ISA (Asociación Internacional de Arboricultura), adaptada a Lima. Clasifica especies en:</p>
+      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="badge badge-verde">Sustituibles</span>
+        <span class="badge badge-rojo">No sustituibles (singulares, maduros, alto valor ecosistémico)</span>
+      </div>
+      <p style="margin-top:10px;">Detalle de fórmulas y factores en <strong>Anexo 03</strong>.</p>
+    </div>
+    <div class="card" style="border-top-color:#f4a225">
+      <div class="card-title">🏞️ Áreas Verdes (Art. 19)</div>
+      <p>Metodología basada en la <strong>Norma Granada</strong>, adaptada a Lima Metropolitana. Incluye cobertura herbácea valorizada por costo de mantenimiento.</p>
+      <div class="alert-box" style="margin-top:12px; border-radius:8px;">
+        ⚠️ El valor del suelo tiene carácter estrictamente técnico-referencial. <strong>No constituye habilitación para venta, transferencia ni desafectación.</strong>
+      </div>
+      <p>Detalle en <strong>Anexo 04</strong>.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL: PROCEDIMIENTOS
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-procedimientos">
+
+  <div class="section-header mb-16">
+    <h2>Procedimientos sobre Áreas Verdes de Uso Público</h2>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Intervenciones menores -->
+  <div class="accordion mb-16">
+    <div class="accordion-header open" onclick="toggleAcc(this)">
+      🔧 Art. 26–29 · Autorización de Intervenciones Menores
+      <span class="chevron">▼</span>
+    </div>
+    <div class="accordion-body open">
+      <p class="mb-16" style="font-size:0.82rem; color:#444; line-height:1.6;">Se aplica a toda obra, instalación, excavación u ocupación temporal en áreas verdes de uso público. Requiere autorización previa.</p>
+      <div class="section-header mb-16" style="margin-top:0">
+        <h2 style="font-size:0.85rem">Flujo del Procedimiento</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="flow-container mb-16">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-title">Solicitud del administrado</div>
+          <div class="step-desc">Presenta expediente a la Municipalidad Distrital</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-title">Evaluación Distrital</div>
+          <div class="step-desc">Área competente evalúa necesidad y emite opinión técnica</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-title">Remisión a SGA-MML</div>
+          <div class="step-desc">La Municipalidad Distrital remite a la Subgerencia de Gestión Ambiental</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-title">Evaluación Metropolitana</div>
+          <div class="step-desc">SGA evalúa y autoriza (o deniega) la intervención</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="step-num">5</div>
+          <div class="step-title">Ejecución y Restitución</div>
+          <div class="step-desc">Intervención ejecutada; área restituida en condiciones iguales o mejores</div>
+        </div>
+      </div>
+      <div class="card-title mb-16" style="font-size:0.85rem; margin-bottom:12px;">📎 Requisitos mínimos de la solicitud (Art. 27)</div>
+      <ul class="req-list">
+        <li>Memoria descriptiva con sustento de necesidad técnica</li>
+        <li>Planos de ubicación e intervención</li>
+        <li>Método constructivo y cronograma de ejecución</li>
+        <li>Responsable técnico y registro fotográfico</li>
+        <li><strong>Plan de Manejo de Áreas Verdes y Arbolado Urbano</strong></li>
+        <li>Información para determinar compensación ambiental (cuando corresponda)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Infraestructura de soporte -->
+  <div class="accordion mb-16">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      🏗️ Art. 30–44 · Infraestructura de Soporte y Equipamiento Compatible
+      <span class="chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <p style="font-size:0.82rem; color:#444; line-height:1.6; margin-bottom:12px;">Aplica a implementación, remodelación o ampliación de infraestructura en parques metropolitanos, zonales y áreas verdes de administración especial.</p>
+      <div class="alert-box">
+        🏞️ En <strong>áreas verdes complementarias</strong> (bermas, rotondas, jardines de aislamiento) solo se admiten <strong>intervenciones mínimas</strong> de infraestructura, subordinadas a la función vegetal del espacio.
+      </div>
+      <div class="card-title" style="font-size:0.85rem; margin-bottom:10px;">📎 Contenido mínimo del expediente (Art. 31)</div>
+      <ul class="req-list">
+        <li>Memoria descriptiva con sustento de necesidad y compatibilidad</li>
+        <li>Planos de ubicación, distribución y detalle</li>
+        <li><strong>Plan de Manejo de Áreas Verdes y Arbolado Urbano</strong></li>
+        <li>Información para determinar compensación ambiental (cuando corresponda)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Afectación de áreas verdes -->
+  <div class="accordion mb-16">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      ⚠️ Afectación de Áreas Verdes — Principios clave
+      <span class="chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="grid-2" style="margin-top:4px">
+        <div>
+          <div class="list-item"><span class="icon">🔒</span><div>Las áreas verdes de uso público tienen <strong>protección especial</strong>. Toda intervención debe justificarse técnicamente.</div></div>
+          <div class="list-item"><span class="icon">🔄</span><div>Toda área afectada debe ser <strong>restituida en condiciones iguales o mejores</strong> al estado previo a la intervención.</div></div>
+          <div class="list-item"><span class="icon">📐</span><div>El administrado debe incorporar un <strong>Plan de Manejo</strong> con inventario, cronograma, medidas de protección y partidas presupuestales.</div></div>
+        </div>
+        <div>
+          <div class="list-item"><span class="icon">💰</span><div>Toda afectación residual que no pueda mitigarse activa la <strong>compensación ambiental</strong> obligatoria.</div></div>
+          <div class="list-item"><span class="icon">👁️</span><div>La SGA puede realizar <strong>supervisión inopinada</strong> en cualquier etapa y actuar ante incumplimientos.</div></div>
+          <div class="list-item"><span class="icon">🌳</span><div>Las intervenciones sobre arbolado urbano consolidado requieren <strong>autorización metropolitana</strong> de la SGA.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL: ARBOLADO URBANO
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-arbolado">
+
+  <div class="section-header mb-16">
+    <h2>Tratamientos del Arbolado Urbano (Título IV)</h2>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Clasificación -->
+  <div class="highlight mb-24">
+    <strong>Clasificación de especies arbóreas (Art. 47):</strong>
+    <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:200px; background:white; border-radius:8px; padding:12px; border-left:4px solid var(--verde-medio);">
+        <span class="badge badge-verde" style="margin-bottom:6px; display:inline-block;">Consolidadas</span>
+        <p style="font-size:0.8rem; color:#333; line-height:1.5;">Especie con estructura arbórea definida, copa consolidada y ramificación primaria establecida. Requieren <strong>autorización metropolitana (SGA)</strong>.</p>
+      </div>
+      <div style="flex:1; min-width:200px; background:white; border-radius:8px; padding:12px; border-left:4px solid var(--amarillo);">
+        <span class="badge badge-amarillo" style="margin-bottom:6px; display:inline-block;">No consolidadas</span>
+        <p style="font-size:0.8rem; color:#333; line-height:1.5;">Sin estructura arbórea definida ni copa consolidada. Evaluadas y autorizadas por la <strong>Municipalidad Distrital</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparativa de tratamientos -->
+  <div class="section-header mb-16">
+    <h2>Comparativa de Tratamientos Arbóreos</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div style="background:white; border-radius:var(--radio); box-shadow:var(--sombra); overflow:hidden; margin-bottom:24px;">
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th style="background:#1a4731; color:white; text-align:left; padding:12px 16px; font-size:0.75rem;">Requisito / Aspecto</th>
+          <th style="background:#c0392b; color:white;">🪚 Tala</th>
+          <th style="background:#e07b39; color:white;">✂️ Poda Severa</th>
+          <th style="background:#2980b9; color:white;">🚛 Traslado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-label">Informe Técnico profesional</td>
+          <td><span class="check">✔</span></td>
+          <td><span class="check">✔</span></td>
+          <td><span class="check">✔</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">Plan de Manejo obligatorio</td>
+          <td><span class="check">✔</span></td>
+          <td><span class="check">✔</span></td>
+          <td><span class="check">✔</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">Valoración Técnica de Riesgo</td>
+          <td><span class="check">✔</span></td>
+          <td><span class="cond">Si hay riesgo</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">Índice de Viabilidad de Traslado</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✔</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">Valorización económica del ejemplar</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✔</span></td>
+          <td><span class="check">✔</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">Compensación ambiental</td>
+          <td><span class="check">✔ Obligatoria</span></td>
+          <td><span class="cond">Si procede</span></td>
+          <td><span class="check">✔ Si perece</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">Monitoreo posterior</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✔ Con freq. definida</span></td>
+          <td><span class="check">✔ 6–12 meses</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">Supervisión in situ SGA</td>
+          <td><span class="check">✔</span></td>
+          <td><span class="check">✔</span></td>
+          <td><span class="check">✔</span></td>
+        </tr>
+        <tr>
+          <td class="row-label">Resolución SGA requerida</td>
+          <td><span class="check">✔</span></td>
+          <td><span class="check">✔</span></td>
+          <td><span class="check">✔</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Causales de tala -->
+  <div class="section-header mb-16">
+    <h2>Causales para Tala (Art. 49)</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="grid-2 mb-24">
+    <div>
+      <div class="list-item"><span class="icon">🔴</span><div>Daños estructurales, mecánicos, sanitarios o fisiológicos que comprometan la estabilidad y no sean técnicamente recuperables</div></div>
+      <div class="list-item"><span class="icon">🔴</span><div>Enfermedades, pudriciones o defectos que generen <strong>riesgo no tolerable</strong> para personas, bienes o infraestructura</div></div>
+      <div class="list-item"><span class="icon">🔴</span><div>Interferencia inevitable con obras de infraestructura o servicios de interés público, descartada la conservación</div></div>
+      <div class="list-item"><span class="icon">🔴</span><div>Especies arbóreas muertas en pie en áreas con presencia de personas o infraestructura</div></div>
+    </div>
+    <div>
+      <div class="list-item"><span class="icon">🔴</span><div>Riesgo inminente de caída o colapso estructural por afectaciones súbitas o pérdida de anclaje</div></div>
+      <div class="list-item"><span class="icon">🔴</span><div>Ramas o ejes con riesgo inminente de desprendimiento sin alternativa viable de menor afectación</div></div>
+      <div class="list-item"><span class="icon">🟡</span><div>Interferencia con obras privadas, solo si no existe alternativa técnica o constructiva viable debidamente sustentada</div></div>
+      <div class="list-item"><span class="icon">🟡</span><div>Otros casos análogos debidamente justificados</div></div>
+    </div>
+  </div>
+
+  <!-- Emergencia -->
+  <div class="section-header mb-16">
+    <h2>Tala / Poda por Emergencia (Arts. 54–56)</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="flow-container mb-16">
+    <div class="flow-step" style="border-top-color:#c0392b">
+      <div class="step-num" style="background:#c0392b">1</div>
+      <div class="step-title">Situación de emergencia o riesgo manifiesto</div>
+      <div class="step-desc">Identificación por la municipalidad distrital o entidad administradora</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="border-top-color:#c0392b">
+      <div class="step-num" style="background:#c0392b">2</div>
+      <div class="step-title">Intervención inmediata</div>
+      <div class="step-desc">Limitada a la medida indispensable para atender el riesgo. Priorizar menor afectación.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="border-top-color:#c0392b">
+      <div class="step-num" style="background:#c0392b">3</div>
+      <div class="step-title">Informe Técnico de Gestión del Riesgo</div>
+      <div class="step-desc">Elaborado por profesional habilitado. Remitido a la SGA-MML posterior a la intervención.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="border-top-color:#c0392b">
+      <div class="step-num" style="background:#c0392b">4</div>
+      <div class="step-title">Evaluación de la SGA</div>
+      <div class="step-desc">Puede observar la intervención y exigir medidas correctivas o adicionales.</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="border-top-color:#c0392b">
+      <div class="step-num" style="background:#c0392b">5</div>
+      <div class="step-title">Compensación ambiental</div>
+      <div class="step-desc">La emergencia <strong>no exonera</strong> la compensación ni la supervisión posterior.</div>
+    </div>
+  </div>
+
+  <!-- Traslado monitoreo -->
+  <div class="section-header mb-16">
+    <h2>Traslado — Monitoreo posterior (Art. 58)</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="grid-2">
+    <div class="card" style="border-top-color:#2980b9">
+      <div class="card-title">📅 Período de monitoreo</div>
+      <p>La municipalidad distrital determina el plazo: <strong>6 meses o 12 meses</strong> según evaluación técnica de la especie trasladada. La entidad administradora supervisa el establecimiento.</p>
+    </div>
+    <div class="card" style="border-top-color:#c0392b">
+      <div class="card-title">💀 No prendimiento</div>
+      <p>Si el individuo trasladado perece durante el monitoreo, se considera que el traslado ocasionó la muerte del árbol, aplicándose la <strong>compensación ambiental equivalente a una tala</strong>.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL: PLANTONES Y PLANTACIÓN
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-plantones">
+
+  <div class="section-header mb-16">
+    <h2>Calidad de Plantones de Vivero (Título V · Arts. 62–69)</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="grid-3 mb-24">
+    <div class="card" style="border-top-color:#27ae60">
+      <div class="card-title">✅ Condiciones mínimas (Art. 62)</div>
+      <ul class="req-list">
+        <li>Libre de plagas y enfermedades significativas</li>
+        <li>Buena condición física, sin etiolación ni estrés hídrico</li>
+        <li>Copa en estado óptimo: ramas y follaje ocupan al menos <strong>2/3 de la altura total</strong></li>
+        <li>Altura superior a <strong>2.5 metros</strong></li>
+      </ul>
+    </div>
+    <div class="card" style="border-top-color:#f4a225">
+      <div class="card-title">⚠️ Defecto crítico — Codominancia (Art. 63)</div>
+      <p>Se deben evitar tallos codominantes (horquillas en "U" o "V") en la <strong>mitad inferior del fuste</strong>. Es un defecto crítico que puede comprometer la integridad estructural futura del árbol.</p>
+    </div>
+    <div class="card" style="border-top-color:#2980b9">
+      <div class="card-title">✂️ Calidad de cortes (Art. 64)</div>
+      <p>Todos los cortes de poda en vivero deben ser <strong>limpios</strong>, sin tocones ni desgarros en la corteza, respetando la zona de protección de la rama para favorecer el cierre de heridas.</p>
+    </div>
+  </div>
+
+  <div class="section-header mb-16">
+    <h2>Especificaciones del Cepellón (Arts. 65–69)</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="grid-2 mb-24">
+    <div class="card">
+      <div class="card-title">📐 Diámetro mínimo del cepellón (Art. 68)</div>
+      <ul class="req-list">
+        <li><strong>General:</strong> 10 a 12 veces el diámetro medido en el fuste (calibre)</li>
+        <li><strong>Coníferas (&gt;1.2 m de altura):</strong> No menos del 40% de la altura del árbol</li>
+        <li><strong>Palmeras:</strong> Mínimo el triple del diámetro de la base; si el tronco es &lt;15 cm, el cepellón no debe ser menor a 45 cm</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">📏 Profundidad mínima del cepellón (Art. 69)</div>
+      <ul class="req-list">
+        <li><strong>Cepellones &lt;50 cm de diámetro:</strong> Profundidad ≥ 65% del diámetro</li>
+        <li><strong>Cepellones ≥50 cm de diámetro:</strong> Profundidad ≥ 60% del diámetro</li>
+        <li><strong>Palmeras:</strong> Profundidad mínima de <strong>60 cm</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🎯 Centrado del árbol (Art. 66)</div>
+      <p>El eje central del tronco debe ubicarse en el <strong>centro geométrico del cepellón</strong>, con tolerancia máxima de desviación del <strong>10% del diámetro total</strong> del cepellón.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">🌱 Sistema radicular (Art. 65)</div>
+      <p>Las raíces deben alcanzar los lados del recipiente, garantizando la <strong>cohesión y firmeza del cepellón</strong> al extraerse. Se rechaza todo plantón con raíces enrolladas o giratorias.</p>
+    </div>
+  </div>
+
+  <div class="section-header mb-16">
+    <h2>Consideraciones para la Plantación (Título VI · Arts. 70–83)</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="grid-3 mb-24">
+    <div class="card">
+      <div class="card-title">🔬 Evaluación del lugar (Art. 70–75)</div>
+      <ul class="req-list">
+        <li>Análisis físico-químico del suelo (salinidad, textura, contaminantes)</li>
+        <li>Disponibilidad de fuentes hídricas</li>
+        <li>Identificación de interferencias aéreas y subterráneas</li>
+        <li>Cálculo del volumen de espacio radicular: <strong>0.6 m³ por cada 1 m² de copa</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🌿 Elección de especie (Arts. 76–78)</div>
+      <ul class="req-list">
+        <li>Tamaño estimado del árbol adulto</li>
+        <li>Características físicas y fisiológicas compatibles con el entorno</li>
+        <li>Promover la <strong>diversidad de especies</strong> para incrementar beneficios ecosistémicos y prevenir propagación de plagas</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">⏰ Época de plantación (Art. 79)</div>
+      <p>Evitar temperaturas muy altas (meses de verano) o fenómenos climáticos con ascenso atípico de temperatura. Priorizar épocas de menor estrés hídrico.</p>
+    </div>
+  </div>
+
+  <div class="section-header mb-16">
+    <h2>Dimensiones de la Hoyadura (Art. 80)</h2>
+    <div class="divider"></div>
+  </div>
+  <div style="background:white; border-radius:var(--radio); box-shadow:var(--sombra); overflow:hidden; margin-bottom:24px;">
+    <table class="actor-table">
+      <thead>
+        <tr>
+          <th>Altura del árbol adulto</th>
+          <th>Ancho mínimo de jardinera</th>
+          <th>Dimensión mínima de jardinera</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Menos de 8 metros</td>
+          <td>1.0 metro</td>
+          <td>1.0 m³</td>
+        </tr>
+        <tr>
+          <td>Entre 8 y 12 metros</td>
+          <td>1.4 metros</td>
+          <td>2.0 m³</td>
+        </tr>
+        <tr>
+          <td>Más de 12 metros</td>
+          <td>1.8 metros</td>
+          <td>3.2 m³</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight">
+    <strong>📊 Evaluación de supervivencia (Art. 83):</strong> Las municipalidades deben supervisar el establecimiento de las especies plantadas a los <strong>12 meses</strong> de la plantación. Deben remitir anualmente el consolidado de resultados de supervivencia a la SGA-MML.
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL: COMPENSACIÓN
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-compensacion">
+
+  <div class="section-header mb-16">
+    <h2>Compensación Ambiental (Título VII · Arts. 84–86)</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="highlight mb-24">
+    La compensación procede cuando, <strong>pese a aplicar medidas de prevención, mitigación, corrección, recuperación o restitución</strong>, persisten impactos residuales sobre áreas verdes o arbolado urbano de uso público (Art. 84).
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div class="card" style="border-top-color:#2d7a4f">
+      <div class="card-title">🌳 Compensación por afectación del arbolado urbano</div>
+      <ul class="req-list">
+        <li>Reposición o reemplazo de especies arbóreas</li>
+        <li>Base: valorización económica de la especie perdida</li>
+        <li>Cantidad determinada en la resolución autoritativa de la SGA</li>
+        <li>Procedimiento en <strong>Anexo 14</strong></li>
+      </ul>
+    </div>
+    <div class="card" style="border-top-color:#4caf7d">
+      <div class="card-title">🏞️ Compensación por pérdida de superficie de áreas verdes</div>
+      <ul class="req-list">
+        <li>Restitución del espacio físico afectado</li>
+        <li>Habilitación de nuevas áreas verdes</li>
+        <li>Otras modalidades definidas en la Ordenanza</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Flujo compensación -->
+  <div class="section-header mb-16">
+    <h2>Ejecución y Supervisión de la Compensación (Art. 86)</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="flow-container mb-24">
+    <div class="flow-step">
+      <div class="step-num">1</div>
+      <div class="step-title">Resolución autoritativa</div>
+      <div class="step-desc">La SGA establece el plazo, condiciones y forma de la compensación</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="step-num">2</div>
+      <div class="step-title">Ejecución</div>
+      <div class="step-desc">El administrado o entidad ejecuta la compensación conforme a la resolución</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="step-num">3</div>
+      <div class="step-title">Supervisión de la SGA</div>
+      <div class="step-desc">Puede supervisar de forma inopinada (sin previo aviso)</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="step-num">4</div>
+      <div class="step-title">Incumplimiento</div>
+      <div class="step-desc">La SGA ejecuta las medidas correctivas o sanciones correspondientes</div>
+    </div>
+  </div>
+
+  <div class="alert-box">
+    ⚠️ <strong>La emergencia no exonera la compensación.</strong> Cuando una intervención de urgencia afecte arbolado urbano, la compensación ambiental sigue siendo obligatoria, independientemente de la situación de riesgo que la motivó (Art. 56).
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL: PARTICIPACIÓN PRIVADA
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-participacion">
+
+  <div class="section-header mb-16">
+    <h2>Participación Privada en Áreas Verdes (Arts. 87–91)</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="highlight mb-24">
+    Regula la <strong>evaluación técnica de propuestas privadas</strong> en áreas verdes de administración especial, referidas exclusivamente a la conservación del área verde y el arbolado urbano. <strong>No sustituye</strong> los procedimientos de la Ley N° 31199 ni otros títulos habilitantes.
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div class="card">
+      <div class="card-title">📋 Contenido mínimo del expediente (Art. 88)</div>
+      <ul class="req-list">
+        <li>Memoria descriptiva de la propuesta</li>
+        <li>Sustento del interés colectivo</li>
+        <li>Descripción del servicio accesorio: ubicación, área, plazo, condiciones</li>
+        <li>Análisis de compatibilidad con la finalidad del área verde</li>
+        <li>Plan de implementación de riego sostenible y eficiencia hídrica</li>
+        <li>Valorización de residuos vegetales y educación ambiental</li>
+        <li><strong>Plan de Manejo de Áreas Verdes y Arbolado Urbano</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🔍 Evaluación técnica (Art. 89)</div>
+      <ul class="req-list">
+        <li>La propuesta debe ser <strong>accesoria o complementaria</strong> al área verde</li>
+        <li>Compatible con la escala, capacidad de carga y finalidad del espacio</li>
+        <li>Límite de ocupación: <strong>15% de la superficie total</strong> del área verde</li>
+        <li>Proyectos en subsuelo sin afectar la superficie: el límite del 15% no aplica al área subterránea</li>
+        <li>No afectar la cobertura vegetal ni el arbolado urbano</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-header mb-16">
+    <h2>Anuncios y Avisos Publicitarios (Arts. 92)</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-top-color:#8e44ad">
+      <div class="card-title">✅ Criterios técnicos</div>
+      <p>La instalación de anuncios en áreas verdes de uso público se rige por la normativa metropolitana vigente y debe someterse a opinión técnica de la SGA si puede afectar cobertura vegetal, arbolado, riego o accesibilidad.</p>
+    </div>
+    <div class="card" style="border-top-color:#c0392b">
+      <div class="card-title">🚫 Prohibición expresa</div>
+      <p>Queda <strong>prohibida</strong> la instalación, fijación, apoyo o anclaje de elementos publicitarios sobre <strong>fustes, ramas, copas, raíces o zonas de protección</strong> de cualquier especie arbórea.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL: EDUCACIÓN
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-educacion">
+
+  <div class="section-header mb-16">
+    <h2>Educación, Participación Ciudadana y Fortalecimiento (Título VII)</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="grid-3 mb-24">
+    <div class="pillar" style="border-top-color:#2d7a4f">
+      <div class="p-icon">📢</div>
+      <div class="p-title">Educación Ambiental (Art. 93)</div>
+      <div class="p-desc">La MML, municipalidades distritales y entidades administradoras promueven programas, campañas, talleres, voluntariados y actividades de sensibilización sobre áreas verdes y arbolado.</div>
+    </div>
+    <div class="pillar" style="border-top-color:#f4a225">
+      <div class="p-icon">🏆</div>
+      <div class="p-title">Concurso "Lima Ciudad Jardín" (Art. 94)</div>
+      <div class="p-desc">Cada dos años, conducido por la GSCGA. Convocatoria en abril; reconocimiento preferentemente en setiembre. Participan todas las municipalidades distritales.</div>
+    </div>
+    <div class="pillar" style="border-top-color:#4caf7d">
+      <div class="p-icon">🎓</div>
+      <div class="p-title">Escuela Metropolitana de Jardineros (Art. 95)</div>
+      <div class="p-desc">Implementada por SERPAR en coordinación con la GSCGA y municipalidades distritales. Forma jardineros urbanos con contenidos técnicos mínimos.</div>
+    </div>
+  </div>
+
+  <div class="section-header mb-16">
+    <h2>Contenidos mínimos de la Escuela de Jardineros</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="grid-4 mb-24">
+    <div class="list-item"><span class="icon">🌿</span><div>Identificación botánica</div></div>
+    <div class="list-item"><span class="icon">🌱</span><div>Propagación vegetal</div></div>
+    <div class="list-item"><span class="icon">✂️</span><div>Poda</div></div>
+    <div class="list-item"><span class="icon">🔧</span><div>Uso de herramientas de jardinería</div></div>
+    <div class="list-item"><span class="icon">⚙️</span><div>Manejo de maquinarias menores</div></div>
+    <div class="list-item"><span class="icon">🪱</span><div>Preparación de sustrato y manejo del suelo</div></div>
+    <div class="list-item"><span class="icon">🐛</span><div>Reconocimiento y manejo integrado de plagas y enfermedades</div></div>
+    <div class="list-item"><span class="icon">💧</span><div>Manejo de sistemas de riego</div></div>
+    <div class="list-item"><span class="icon">🦺</span><div>Uso adecuado de equipos de protección personal (EPPs)</div></div>
+  </div>
+
+  <div class="section-header mb-16">
+    <h2>Agricultura Urbana Domiciliaria (Art. 96)</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="highlight">
+    Las municipalidades y entidades administradoras de áreas verdes de uso y dominio público son responsables de la <strong>planificación, programación y ejecución de talleres de agricultura urbana domiciliaria</strong>, promoviendo la participación ciudadana en la gestión sostenible de espacios verdes.
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL: ANEXOS
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-anexos">
+
+  <div class="section-header mb-16">
+    <h2>Anexos del Reglamento (14 documentos técnicos)</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="highlight mb-24">
+    Los 14 anexos forman parte integrante del Reglamento. Pueden ser actualizados mediante Resolución de Gerencia de la GSCGA sin necesidad de modificar el texto principal (Primera Disposición Complementaria Final).
+  </div>
+
+  <div class="grid-2">
+    <div class="annex-card mb-16">
+      <div class="annex-num">01</div>
+      <div>
+        <div class="annex-title">Formato para la elaboración del Plan Distrital de Áreas Verdes (PDAV) y reporte anual de avance</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Arts. 11–12 · Planificación distrital</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">02</div>
+      <div>
+        <div class="annex-title">Formatos para la elaboración del Inventario de Áreas Verdes y Arbolado Urbano</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Arts. 13–16 · 4 hojas Excel: 1A, 1B, 2A, 2B</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">03</div>
+      <div>
+        <div class="annex-title">Procedimiento para la Valorización Económica del Arbolado Urbano</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 18 · Metodología ISA adaptada · Fórmulas y factores</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">04</div>
+      <div>
+        <div class="annex-title">Metodología de Valorización Económica de Áreas Verdes</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 19 · Norma Granada adaptada a Lima Metropolitana</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">05</div>
+      <div>
+        <div class="annex-title">Formato orientativo para el Plan de Mantenimiento de Áreas Verdes y Arbolado Urbano (general)</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 20–21 · Formato base para intervenciones que afecten áreas verdes</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">06</div>
+      <div>
+        <div class="annex-title">Formato orientativo para el Plan de Manejo con solicitud de Tala</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 22 · Procedimiento, medidas de seguridad, compensación</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">07</div>
+      <div>
+        <div class="annex-title">Formato orientativo para el Plan de Manejo con solicitud de Poda Severa</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 23 · Época, metodología, disponibilidad hídrica, monitoreo</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">08</div>
+      <div>
+        <div class="annex-title">Formato orientativo para el Plan de Manejo con solicitud de Traslado</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 24 · Preparación, extracción, transporte, reimplantación</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">09</div>
+      <div>
+        <div class="annex-title">Procedimiento Administrativo para Solicitudes de Tratamientos Arbóreos</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 50 · Tala, poda severa y traslado de especies consolidadas</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">10</div>
+      <div>
+        <div class="annex-title">Ficha Técnica de Registro para Solicitud de Tratamientos Arbóreos</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 50 · Información esencial de cada especie en solicitud</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">11</div>
+      <div>
+        <div class="annex-title">Procedimiento de Valoración Técnica del Riesgo del Arbolado Urbano</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Arts. 52, 54 · Niveles de riesgo: tolerable, no tolerable, inminente</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">12</div>
+      <div>
+        <div class="annex-title">Formato de Informe Técnico de Gestión del Riesgo del Arbolado Urbano</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 56 · Intervenciones por emergencia o riesgo manifiesto</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">13</div>
+      <div>
+        <div class="annex-title">Procedimiento para la Evaluación Técnica de Traslado del Arbolado Urbano</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 57 · Índice de Viabilidad de Traslado (IVT)</div>
+      </div>
+    </div>
+    <div class="annex-card mb-16">
+      <div class="annex-num">14</div>
+      <div>
+        <div class="annex-title">Procedimiento para la Determinación de Compensación mediante Reposición del Arbolado Urbano</div>
+        <div style="font-size:0.72rem; color:var(--gris-medio); margin-top:4px;">Art. 85 · Cálculo del número de individuos a reponer</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight mt-24">
+    <strong>⚙️ Implementación progresiva (Segunda Disposición Complementaria Final):</strong> Los formatos, registros y mecanismos de reporte tienen un plazo de adecuación interna para las entidades obligadas, garantizando la implementación gradual sin afectar la vigencia del Reglamento.
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  const tabs = document.querySelectorAll('.tab');
+  const map = {
+    'resumen': 0, 'sistema': 1, 'procedimientos': 2, 'arbolado': 3,
+    'plantones': 4, 'compensacion': 5, 'participacion': 6, 'educacion': 7, 'anexos': 8
+  };
+  if (map[id] !== undefined) tabs[map[id]].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleAcc(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// Activate first accordion on load
+document.addEventListener('DOMContentLoaded', () => {
+  const first = document.querySelector('.accordion-header');
+  if (first) {
+    first.classList.add('open');
+    first.nextElementSibling.classList.add('open');
+  }
+});
+</script>
+</body>
+</html>
