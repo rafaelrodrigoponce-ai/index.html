@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reglamento Áreas Verdes y Arbolado Urbano — MML 2026</title>
+<style>
+:root{
+  --v0:#0d2118;--v1:#1a3d2b;--v2:#245c38;--v3:#2e7048;
+  --v4:#38845a;--v5:#45a06e;--v6:#a8d5b8;--v7:#dff0e8;
+  --s1:#4a6b7a;--gris:#3d5048;--claro:#eef5f1;
+  --shadow:0 2px 16px rgba(13,33,24,.11);--r:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--claro);color:var(--v0)}
+
+.header{
+  background:linear-gradient(135deg,var(--v0) 0%,var(--v1) 40%,var(--v2) 75%,var(--v3) 100%);
+  color:#fff;padding:20px 36px;display:flex;align-items:center;gap:18px;
+  position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(13,33,24,.4);
+  overflow:hidden;min-height:72px;
+}
+.hdr-icon{font-size:2.4rem;z-index:1}
+.hdr-text{z-index:1}
+.hdr-title{font-size:1.06rem;font-weight:700;line-height:1.35}
+.hdr-sub{font-size:.75rem;opacity:.78;margin-top:3px}
+.hdr-badge{margin-left:auto;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.26);border-radius:20px;padding:5px 15px;font-size:.72rem;font-weight:700;white-space:nowrap;z-index:1}
+
+.tabs-wrap{background:var(--v0);position:sticky;top:72px;z-index:90;overflow-x:auto;box-shadow:0 3px 12px rgba(13,33,24,.3)}
+.tabs{display:flex;padding:0 20px;min-width:max-content}
+.tab{padding:12px 14px;cursor:pointer;font-size:.78rem;font-weight:600;color:#a8c8b8;border-bottom:3px solid transparent;white-space:nowrap;transition:all .18s;user-select:none}
+.tab:hover{color:#fff}
+.tab.active{color:#fff;border-bottom-color:var(--v5)}
+
+.main{max-width:1080px;margin:0 auto;padding:26px 28px}
+.panel{display:none;animation:fi .22s}
+.panel.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* FOREST BANNER */
+.forest-banner{
+  background:linear-gradient(135deg,var(--v0) 0%,var(--v2) 60%,var(--v3) 100%);
+  border-radius:var(--r);padding:24px 28px 0;margin-bottom:18px;overflow:hidden;color:#fff;
+}
+.forest-text{margin-bottom:14px}
+.forest-title{font-size:1rem;font-weight:700;margin-bottom:4px}
+.forest-sub{font-size:.8rem;opacity:.82;line-height:1.5}
+.forest-trees{display:flex;align-items:flex-end;gap:6px}
+.htree{flex-shrink:0;animation:grow .55s ease-out both}
+.htree:nth-child(1){width:36px}.htree:nth-child(2){width:54px}.htree:nth-child(3){width:42px}
+.htree:nth-child(4){width:62px}.htree:nth-child(5){width:46px}.htree:nth-child(6){width:58px}
+.htree:nth-child(7){width:40px}.htree:nth-child(8){width:52px}.htree:nth-child(9){width:44px}
+@keyframes grow{from{opacity:0;transform:scaleY(.2) translateY(30px);transform-origin:bottom}to{opacity:1;transform:none}}
+
+/* STATS */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.stat{background:#fff;border-radius:var(--r);padding:16px 12px;box-shadow:var(--shadow);text-align:center;border-bottom:4px solid var(--v4)}
+.sn{font-size:2.1rem;font-weight:800;color:var(--v2)}
+.sl{font-size:.68rem;color:var(--gris);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+
+.intro-card{background:#fff;border-radius:var(--r);padding:18px 22px;box-shadow:var(--shadow);margin-bottom:18px;border-left:5px solid var(--v3)}
+.intro-card p{font-size:.82rem;color:#3a4a40;line-height:1.72}
+.sec-lbl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gris);margin:0 0 8px}
+
+/* RESUMEN ROWS */
+.res-row{background:#fff;border-radius:var(--r);padding:13px 18px;margin-bottom:8px;box-shadow:var(--shadow);cursor:pointer;display:flex;align-items:center;gap:13px;transition:transform .15s,box-shadow .15s}
+.res-row:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(13,33,24,.16)}
+.res-tree{font-size:1.6rem;flex-shrink:0}
+.res-info{flex:1;min-width:0}
+.res-ttl{font-size:.84rem;font-weight:700;color:var(--v0)}
+.res-sub{font-size:.72rem;color:var(--gris);margin-top:2px}
+.res-badge{font-size:.69rem;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.res-range{font-size:.71rem;color:var(--gris);white-space:nowrap;flex-shrink:0}
+.res-arr{font-size:1.5rem;font-weight:700;flex-shrink:0}
+
+/* PANEL HEADER */
+.phdr{border-radius:var(--r);padding:18px 22px;margin-bottom:16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.phdr-tree{width:50px;flex-shrink:0}
+.phdr-title{font-size:.97rem;font-weight:700;line-height:1.35}
+.phdr-sub{font-size:.77rem;color:var(--gris);margin-top:3px}
+
+/* SUMMARY BLOCK */
+.summary-block{
+  background:#fff;border-radius:var(--r);padding:20px 24px;
+  margin-bottom:20px;box-shadow:var(--shadow);
+}
+.summary-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.summary-text{font-size:.83rem;color:#2d3d35;line-height:1.75;margin-bottom:14px}
+.hl-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.hl-list{list-style:none}
+.hl-list li{
+  font-size:.8rem;color:#2a3a32;padding:6px 0 6px 20px;
+  border-bottom:1px solid var(--v7);line-height:1.6;position:relative;
+}
+.hl-list li:last-child{border-bottom:none}
+.hl-list li::before{content:"●";position:absolute;left:0;color:var(--v4);font-size:.55rem;top:9px}
+
+/* CHAPTERS */
+.chap{margin-bottom:16px;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.chap-hd{background:#fff;padding:10px 16px;font-size:.76rem;font-weight:700;border-left:4px solid;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--v7)}
+
+/* ARTICLES */
+.art-card{background:#fff;border-left:4px solid var(--ac,var(--v3));border-bottom:1px solid var(--v7)}
+.art-card:last-child{border-bottom:none}
+.art-head{padding:11px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;user-select:none;transition:background .12s}
+.art-head:hover{background:#f4faf6}
+.art-hl{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.art-num{color:#fff;font-size:.64rem;font-weight:800;padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.art-name{font-size:.83rem;font-weight:600;color:var(--v0);line-height:1.35}
+.chev{color:var(--v4);font-size:.85rem;transition:transform .2s;flex-shrink:0}
+.art-card.expanded .chev{transform:rotate(180deg)}
+.art-body{display:none;padding:12px 16px 14px 44px;border-top:1px solid var(--v7)}
+.art-card.expanded .art-body{display:block}
+.art-ul{list-style:none}
+.art-ul li{font-size:.79rem;color:#2d3d35;padding:5px 0;line-height:1.68;border-bottom:1px solid var(--v7)}
+.art-ul li:last-child{border-bottom:none}
+.art-ul li::before{content:"▸ ";color:var(--v4);font-weight:700}
+
+::-webkit-scrollbar{height:5px;width:5px}
+::-webkit-scrollbar-track{background:var(--v7)}
+::-webkit-scrollbar-thumb{background:var(--v4);border-radius:10px}
+
+@media(max-width:680px){
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .main{padding:14px 11px}
+  .header{padding:14px 16px}
+  .res-range,.res-sub{display:none}
+  .art-body{padding-left:14px}
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="hdr-icon">&#127795;</div>
+  <div class="hdr-text">
+    <div class="hdr-title">Reglamento de Áreas Verdes y Arbolado Urbano — MML 2026</div>
+    <div class="hdr-sub">Ord. N° XXXX-2026-MML &nbsp;·&nbsp; 96 artículos &nbsp;·&nbsp; 9 títulos &nbsp;·&nbsp; 26 capítulos</div>
+  </div>
+  <div class="hdr-badge">&#128197; Junio 2026</div>
+</div>
+<div class="tabs-wrap"><div class="tabs"><div class="tab active" data-tab="resumen" onclick="showTab('resumen')">&#127795; Resumen</div>
+<div class="tab" data-tab="titulo1" onclick="showTab('titulo1')">&#127795; Título I</div>
+<div class="tab" data-tab="titulo2" onclick="showTab('titulo2')">&#127795; Título II</div>
+<div class="tab" data-tab="titulo3" onclick="showTab('titulo3')">&#127795; Título III</div>
+<div class="tab" data-tab="titulo4" onclick="showTab('titulo4')">&#127795; Título IV</div>
+<div class="tab" data-tab="titulo5" onclick="showTab('titulo5')">&#127795; Título V</div>
+<div class="tab" data-tab="titulo6" onclick="showTab('titulo6')">&#127795; Título VI</div>
+<div class="tab" data-tab="titulo7" onclick="showTab('titulo7')">&#127795; Título VII</div>
+<div class="tab" data-tab="titulo8" onclick="showTab('titulo8')">&#127795; Título VIII</div>
+<div class="tab" data-tab="titulo9" onclick="showTab('titulo9')">&#127795; Título IX</div></div></div>
+<div class="main"><div class="panel active" id="tab-resumen"><div class="forest-banner">
+  <div class="forest-text">
+    <div class="forest-title">Ordenanza N° XXXX-2026-MML</div>
+    <div class="forest-sub">Reglamento para la Gestión Integral de Áreas Verdes y Arbolado Urbano de la Provincia de Lima</div>
+  </div>
+  <div class="forest-trees"><div class="htree" style="animation-delay:0.0s"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="42" width="4" height="12" fill="#5a3a1a" rx="1"/><polygon points="20,4 6,28 34,28" fill="#2d7a4f" opacity=".9"/><polygon points="20,12 8,34 32,34" fill="#245c38"/><polygon points="20,20 10,42 30,42" fill="#1a3d2b"/></svg></div><div class="htree" style="animation-delay:0.15s"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="38" width="4" height="16" fill="#5a3a1a" rx="1"/><ellipse cx="20" cy="26" rx="15" ry="13" fill="#245c38" opacity=".9"/><ellipse cx="15" cy="22" rx="10" ry="9" fill="#2d7a4f" opacity=".7"/><ellipse cx="25" cy="24" rx="9" ry="8" fill="#38845a" opacity=".6"/></svg></div><div class="htree" style="animation-delay:0.3s"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="46" width="4" height="10" fill="#5a3a1a" rx="1"/><ellipse cx="20" cy="28" rx="8" ry="22" fill="#1a3d2b" opacity=".9"/><ellipse cx="18" cy="24" rx="5" ry="16" fill="#2d7a4f" opacity=".7"/></svg></div><div class="htree" style="animation-delay:0.44999999999999996s"><svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="40" width="4" height="14" fill="#5a3a1a" rx="1"/><ellipse cx="28" cy="26" rx="22" ry="16" fill="#245c38" opacity=".85"/><ellipse cx="18" cy="20" rx="13" ry="10" fill="#2d7a4f" opacity=".7"/><ellipse cx="36" cy="22" rx="12" ry="10" fill="#38845a" opacity=".6"/><ellipse cx="28" cy="16" rx="10" ry="8" fill="#3d9460" opacity=".5"/></svg></div><div class="htree" style="animation-delay:0.6s"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="44" width="4" height="12" fill="#5a3a1a" rx="1"/><polygon points="20,6 7,30 33,30" fill="#2d7a4f"/><polygon points="20,16 9,36 31,36" fill="#245c38" opacity=".85"/><ellipse cx="20" cy="42" rx="8" ry="4" fill="#38845a" opacity=".4"/></svg></div><div class="htree" style="animation-delay:0.75s"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="42" width="4" height="12" fill="#5a3a1a" rx="1"/><polygon points="20,4 6,28 34,28" fill="#2d7a4f" opacity=".9"/><polygon points="20,12 8,34 32,34" fill="#245c38"/><polygon points="20,20 10,42 30,42" fill="#1a3d2b"/></svg></div><div class="htree" style="animation-delay:0.8999999999999999s"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="38" width="4" height="16" fill="#5a3a1a" rx="1"/><ellipse cx="20" cy="26" rx="15" ry="13" fill="#245c38" opacity=".9"/><ellipse cx="15" cy="22" rx="10" ry="9" fill="#2d7a4f" opacity=".7"/><ellipse cx="25" cy="24" rx="9" ry="8" fill="#38845a" opacity=".6"/></svg></div><div class="htree" style="animation-delay:1.05s"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="46" width="4" height="10" fill="#5a3a1a" rx="1"/><ellipse cx="20" cy="28" rx="8" ry="22" fill="#1a3d2b" opacity=".9"/><ellipse cx="18" cy="24" rx="5" ry="16" fill="#2d7a4f" opacity=".7"/></svg></div><div class="htree" style="animation-delay:1.2s"><svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="40" width="4" height="14" fill="#5a3a1a" rx="1"/><ellipse cx="28" cy="26" rx="22" ry="16" fill="#245c38" opacity=".85"/><ellipse cx="18" cy="20" rx="13" ry="10" fill="#2d7a4f" opacity=".7"/><ellipse cx="36" cy="22" rx="12" ry="10" fill="#38845a" opacity=".6"/><ellipse cx="28" cy="16" rx="10" ry="8" fill="#3d9460" opacity=".5"/></svg></div></div>
+</div>
+<div class="stat-grid">
+  <div class="stat"><div class="sn">96</div><div class="sl">Artículos</div></div>
+  <div class="stat"><div class="sn">9</div><div class="sl">Títulos</div></div>
+  <div class="stat"><div class="sn">30</div><div class="sl">Capítulos</div></div>
+  <div class="stat"><div class="sn">2026</div><div class="sl">Vigencia</div></div>
+</div>
+<div class="intro-card">
+  <p>Este reglamento establece el marco normativo para la gestión, protección, intervención y compensación de las áreas verdes y el arbolado urbano en la Provincia de Lima. Selecciona un título para ver su resumen, puntos clave y el texto completo de cada artículo.</p>
+</div>
+<div class="sec-lbl">Explorar por título</div>
+<div class="res-row" style="border-left:4px solid #1a3d2b" onclick="showTab('titulo1')">
+  <div class="res-tree" style="color:#1a3d2b">&#127795;</div>
+  <div class="res-info">
+    <div class="res-ttl">TÍTULO I — Disposiciones Generales</div>
+    <div class="res-sub">Arts. 1–4</div>
+  </div>
+  <span class="res-badge" style="background:#1a3d2b1a;color:#1a3d2b;border:1px solid #1a3d2b44">4&nbsp;arts.</span>
+  <span class="res-range">Arts. 1&ndash;4</span>
+  <span class="res-arr" style="color:#1a3d2b">&#8250;</span>
+</div><div class="res-row" style="border-left:4px solid #245c38" onclick="showTab('titulo2')">
+  <div class="res-tree" style="color:#245c38">&#127795;</div>
+  <div class="res-info">
+    <div class="res-ttl">TÍTULO II — Sistema Metropolitano, Competencias e Instrumentos de Planificación</div>
+    <div class="res-sub">Arts. 5–25</div>
+  </div>
+  <span class="res-badge" style="background:#245c381a;color:#245c38;border:1px solid #245c3844">21&nbsp;arts.</span>
+  <span class="res-range">Arts. 5&ndash;25</span>
+  <span class="res-arr" style="color:#245c38">&#8250;</span>
+</div><div class="res-row" style="border-left:4px solid #2e7048" onclick="showTab('titulo3')">
+  <div class="res-tree" style="color:#2e7048">&#127795;</div>
+  <div class="res-info">
+    <div class="res-ttl">TÍTULO III — Procedimientos sobre Áreas Verdes de Uso Público</div>
+    <div class="res-sub">Arts. 26–46</div>
+  </div>
+  <span class="res-badge" style="background:#2e70481a;color:#2e7048;border:1px solid #2e704844">21&nbsp;arts.</span>
+  <span class="res-range">Arts. 26&ndash;46</span>
+  <span class="res-arr" style="color:#2e7048">&#8250;</span>
+</div><div class="res-row" style="border-left:4px solid #38845a" onclick="showTab('titulo4')">
+  <div class="res-tree" style="color:#38845a">&#127795;</div>
+  <div class="res-info">
+    <div class="res-ttl">TÍTULO IV — Procedimientos sobre Arbolado Urbano</div>
+    <div class="res-sub">Arts. 47–61</div>
+  </div>
+  <span class="res-badge" style="background:#38845a1a;color:#38845a;border:1px solid #38845a44">15&nbsp;arts.</span>
+  <span class="res-range">Arts. 47&ndash;61</span>
+  <span class="res-arr" style="color:#38845a">&#8250;</span>
+</div><div class="res-row" style="border-left:4px solid #3d7a55" onclick="showTab('titulo5')">
+  <div class="res-tree" style="color:#3d7a55">&#127795;</div>
+  <div class="res-info">
+    <div class="res-ttl">TÍTULO V — Manejo de Plantones de Vivero para Arbolado Urbano</div>
+    <div class="res-sub">Arts. 62–69</div>
+  </div>
+  <span class="res-badge" style="background:#3d7a551a;color:#3d7a55;border:1px solid #3d7a5544">8&nbsp;arts.</span>
+  <span class="res-range">Arts. 62&ndash;69</span>
+  <span class="res-arr" style="color:#3d7a55">&#8250;</span>
+</div><div class="res-row" style="border-left:4px solid #4a7c8a" onclick="showTab('titulo6')">
+  <div class="res-tree" style="color:#4a7c8a">&#127795;</div>
+  <div class="res-info">
+    <div class="res-ttl">TÍTULO VI — Consideraciones para la Plantación de Especies Arbóreas</div>
+    <div class="res-sub">Arts. 70–83</div>
+  </div>
+  <span class="res-badge" style="background:#4a7c8a1a;color:#4a7c8a;border:1px solid #4a7c8a44">14&nbsp;arts.</span>
+  <span class="res-range">Arts. 70&ndash;83</span>
+  <span class="res-arr" style="color:#4a7c8a">&#8250;</span>
+</div><div class="res-row" style="border-left:4px solid #5a8a7a" onclick="showTab('titulo7')">
+  <div class="res-tree" style="color:#5a8a7a">&#127795;</div>
+  <div class="res-info">
+    <div class="res-ttl">TÍTULO VII — Compensación, Supervisión y Cumplimiento</div>
+    <div class="res-sub">Arts. 84–86</div>
+  </div>
+  <span class="res-badge" style="background:#5a8a7a1a;color:#5a8a7a;border:1px solid #5a8a7a44">3&nbsp;arts.</span>
+  <span class="res-range">Arts. 84&ndash;86</span>
+  <span class="res-arr" style="color:#5a8a7a">&#8250;</span>
+</div><div class="res-row" style="border-left:4px solid #4a6b7a" onclick="showTab('titulo8')">
+  <div class="res-tree" style="color:#4a6b7a">&#127795;</div>
+  <div class="res-info">
+    <div class="res-ttl">TÍTULO VIII — Participación Privada y Anuncios en Áreas Verdes</div>
+    <div class="res-sub">Arts. 87–92</div>
+  </div>
+  <span class="res-badge" style="background:#4a6b7a1a;color:#4a6b7a;border:1px solid #4a6b7a44">6&nbsp;arts.</span>
+  <span class="res-range">Arts. 87&ndash;92</span>
+  <span class="res-arr" style="color:#4a6b7a">&#8250;</span>
+</div><div class="res-row" style="border-left:4px solid #3d6b5a" onclick="showTab('titulo9')">
+  <div class="res-tree" style="color:#3d6b5a">&#127795;</div>
+  <div class="res-info">
+    <div class="res-ttl">TÍTULO IX — Educación Ambiental y Participación Ciudadana</div>
+    <div class="res-sub">Arts. 93–96</div>
+  </div>
+  <span class="res-badge" style="background:#3d6b5a1a;color:#3d6b5a;border:1px solid #3d6b5a44">4&nbsp;arts.</span>
+  <span class="res-range">Arts. 93&ndash;96</span>
+  <span class="res-arr" style="color:#3d6b5a">&#8250;</span>
+</div></div>
+<div class="panel" id="tab-titulo1"><div class="phdr" style="background:linear-gradient(135deg,#1a3d2b18 0%,#eef5f1 100%);border-left:5px solid #1a3d2b">
+  <div class="phdr-tree"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="38" width="4" height="16" fill="#5a3a1a" rx="1"/><ellipse cx="20" cy="26" rx="15" ry="13" fill="#245c38" opacity=".9"/><ellipse cx="15" cy="22" rx="10" ry="9" fill="#2d7a4f" opacity=".7"/><ellipse cx="25" cy="24" rx="9" ry="8" fill="#38845a" opacity=".6"/></svg></div>
+  <div>
+    <div class="phdr-title" style="color:#1a3d2b">TÍTULO I — Disposiciones Generales</div>
+    <div class="phdr-sub">Arts. 1–4 &nbsp;·&nbsp; <strong>4 artículos</strong></div>
+  </div>
+</div>
+<div class="summary-block" style="border-left:4px solid #1a3d2b">
+  <div class="summary-label" style="color:#1a3d2b">&#128196; Resumen del título</div>
+  <p class="summary-text">Define el propósito y alcance del reglamento, que regula la gestión integral de áreas verdes y arbolado urbano en toda la Provincia de Lima, con aplicación obligatoria para la MML, municipalidades distritales, entidades administradoras, empresas y particulares que intervengan en estos espacios.</p>
+  <div class="hl-label" style="color:#1a3d2b">&#9733; Puntos clave</div>
+  <ul class="hl-list"><li>Objeto: desarrollar las disposiciones de la Ordenanza N° XXXX-2026-MML para la gestión integral de áreas verdes y arbolado urbano.</li><li>Finalidad: garantizar la aplicación uniforme, técnica y predecible de la Ordenanza en toda la provincia.</li><li>Alcance: cumplimiento obligatorio para MML, municipalidades distritales, entidades administradoras, concesionarios, empresas prestadoras de servicios y cualquier administrado que intervenga en áreas verdes.</li><li>Definiciones clave: MML, GSCGA, SGA, PLAMAVE, PDAV, SMIA, IT, ITGR, DAP, ZPA y CISA.</li></ul>
+</div>
+<div class="chap"><div class="chap-hd" style="border-left-color:#1a3d2b;color:#1a3d2b">Capítulo I: Objeto, Finalidad, Alcance, Definiciones y Siglas</div><div class="art-card" style="--ac:#1a3d2b">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#1a3d2b">Art.&nbsp;1</span><span class="art-name">Objeto</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El presente Reglamento tiene por objeto desarrollar las disposiciones de la Ordenanza N° XXXX-2026-MML, Ordenanza para la Gestión Integral, Conservación y Mantenimiento de las Áreas Verdes en la Provincia de Lima, estableciendo los procedimientos, requisitos, criterios técnicos, formatos, responsabilidades y mecanismos de evaluación, autorización, supervisión y seguimiento aplicables a la planificación, gestión, protección, intervención, valorización, compensación y mantenimiento de las áreas verdes de uso público, del arbolado urbano y de sus componentes en la provincia de Lima.</li></ul></div>
+</div><div class="art-card" style="--ac:#1a3d2b">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#1a3d2b">Art.&nbsp;2</span><span class="art-name">Finalidad</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El presente Reglamento tiene por finalidad establecer la aplicación uniforme, técnica y predecible de la Ordenanza, asegurando que toda intervención sobre áreas verdes de uso público, arbolado urbano y sus componentes se realice bajo criterios de conservación, protección, sostenibilidad, seguridad, compensación ambiental y respeto de su condición de bienes de uso y dominio público. Asimismo, busca fortalecer la actuación coordinada de la Municipalidad Metropolitana de Lima, las municipalidades distritales, las entidades administradoras y los administrados, a fin de prevenir afectaciones indebidas, controlar riesgos asociados al arbolado urbano, áreas verdes, asegurar la recuperación o compensación de los impactos ambientales que se generen, promover el incremento de la superficie, cantidad y accesibilidad del arbolado urbano, así como incorporar de manera efectiva la gestión integrada del recurso hídrico en la planificación metropolitana de las áreas verdes, priorizando la sustitución progresiva del uso de agua potable por fuentes alternativas como aguas residuales tratadas, aguas grises, entre otros.</li></ul></div>
+</div><div class="art-card" style="--ac:#1a3d2b">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#1a3d2b">Art.&nbsp;3</span><span class="art-name">Alcance</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El presente Reglamento es de cumplimiento obligatorio en la provincia de Lima y se aplica a la Municipalidad Metropolitana de Lima, las municipalidades distritales, entidades administradoras de áreas verdes, entidades públicas, empresas prestadoras de servicios públicos, concesionarios, contratistas, administrados y toda persona natural o jurídica, pública o privada, cuyas actuaciones incidan directa o indirectamente sobre las áreas verdes de uso público, el arbolado urbano o sus componentes, conforme a la Ordenanza y demás normativa aplicable.</li></ul></div>
+</div><div class="art-card" style="--ac:#1a3d2b">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#1a3d2b">Art.&nbsp;4</span><span class="art-name">Definiciones y Siglas</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Para la aplicación del presente Reglamento se utilizan las definiciones establecidas en el Anexo I de la Ordenanza; asimismo, se emplean las siguientes siglas:</li><li>a) MML: Municipalidad Metropolitana de Lima.</li><li>b) GSCGA: Gerencia de Servicios a la Ciudad y Gestión Ambiental, o la que haga sus veces.</li><li>c) SSC: Subgerencia de Servicios a la Ciudad</li><li>d) SGA: Subgerencia de Gestión Ambiental, o la que haga sus veces.</li><li>e) PLAMAVE: Plan Metropolitano de Áreas Verdes.</li><li>f) PDAV: Plan Distrital de Áreas Verdes.</li><li>g) SMIA: Sistema Metropolitano de Información Ambiental.</li><li>h) IT: Informe Técnico.</li><li>i) ITGR: Informe Técnico de Gestión del Riesgo.</li><li>j) DAP: Diámetro a la Altura del Pecho.</li><li>k) ZPA: Zona de Protección de la Especie Arbórea.</li><li>l) CISA: Cuadro de Infracciones y Sanciones Administrativas.</li></ul></div>
+</div></div></div>
+<div class="panel" id="tab-titulo2"><div class="phdr" style="background:linear-gradient(135deg,#245c3818 0%,#eef5f1 100%);border-left:5px solid #245c38">
+  <div class="phdr-tree"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="46" width="4" height="10" fill="#5a3a1a" rx="1"/><ellipse cx="20" cy="28" rx="8" ry="22" fill="#1a3d2b" opacity=".9"/><ellipse cx="18" cy="24" rx="5" ry="16" fill="#2d7a4f" opacity=".7"/></svg></div>
+  <div>
+    <div class="phdr-title" style="color:#245c38">TÍTULO II — Sistema Metropolitano, Competencias e Instrumentos de Planificación</div>
+    <div class="phdr-sub">Arts. 5–25 &nbsp;·&nbsp; <strong>21 artículos</strong></div>
+  </div>
+</div>
+<div class="summary-block" style="border-left:4px solid #245c38">
+  <div class="summary-label" style="color:#245c38">&#128196; Resumen del título</div>
+  <p class="summary-text">Estructura el Sistema Metropolitano de Áreas Verdes a través de sus actores, instrumentos de planificación (PLAMAVE y PDAV), inventarios, valorización económica y planes de manejo. Establece los mecanismos de coordinación entre la MML y las municipalidades distritales para una gestión articulada del verde urbano.</p>
+  <div class="hl-label" style="color:#245c38">&#9733; Puntos clave</div>
+  <ul class="hl-list"><li>El Sistema Metropolitano funciona mediante la articulación de instrumentos de planificación, gestión e información entre la MML y las municipalidades distritales.</li><li>PLAMAVE: elaborado por la SGA-MML, define la estrategia metropolitana de áreas verdes a largo plazo.</li><li>PDAV: cada municipalidad distrital elabora su Plan Distrital con diagnóstico, metas, estrategias de arborización y programas de riego sostenible.</li><li>Los inventarios distritales de áreas verdes y arbolado urbano se validan y consolidan en el SMIA metropolitano.</li><li>La valorización económica del arbolado clasifica los individuos en sustituibles y no sustituibles para determinar compensaciones.</li><li>El Plan de Manejo de ÁV y AU es requisito obligatorio en todos los procedimientos de intervención (tala, poda, traslado).</li></ul>
+</div>
+<div class="chap"><div class="chap-hd" style="border-left-color:#245c38;color:#245c38">Cap. I: Funcionamiento del Sistema Metropolitano de Áreas Verdes</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;5</span><span class="art-name">Funcionamiento del Sistema</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El Sistema Metropolitano de Áreas Verdes funciona mediante la aplicación articulada de los instrumentos de planificación, inventarios, reportes anuales, formatos, guías técnicas, procedimientos de evaluación, autorizaciones, supervisiones y mecanismos de seguimiento previstos en la Ordenanza y el presente Reglamento, con la finalidad de ordenar la gestión de las áreas verdes de uso público y del arbolado urbano en la provincia de Lima bajo criterios técnicos comunes.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;6</span><span class="art-name">Articulación del Sistema</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La articulación del Sistema se realiza a través de la coordinación técnica entre la Municipalidad Metropolitana de Lima, las municipalidades distritales, las empresas municipales, organismos públicos descentralizados, entidades administradoras de áreas verdes y, cuando corresponda, los actores integrantes de la Comisión Ambiental Metropolitana. Dicha articulación comprende la remisión de información, la coordinación de acciones, la asistencia técnica, el seguimiento de instrumentos de gestión, la atención de casos de interés metropolitano y la aplicación uniforme de los criterios técnicos aprobados por la autoridad metropolitana competente.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;7</span><span class="art-name">Actores del Sistema</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Son actores del Sistema Metropolitano de Áreas Verdes:</li><li>La Municipalidad Metropolitana de Lima, a través de sus órganos y unidades orgánicas competentes.</li><li>Las empresas municipales y organismos públicos descentralizados de la Municipalidad Metropolitana de Lima vinculados a la gestión, administración, intervención, mantenimiento o promoción de áreas verdes y arbolado urbano.</li><li>Las municipalidades distritales de la provincia de Lima.</li><li>Las entidades administradoras de parques zonales, parques metropolitanos, áreas verdes de administración especial y otros espacios de similar naturaleza.</li><li>Los actores que conforman la Comisión Ambiental Metropolitana (CAMET), cuando su participación resulte pertinente según la materia tratada.</li><li>Las entidades públicas, empresas prestadoras de servicios públicos, concesionarios, titulares de proyectos, contratistas o administrados, cuando sus actuaciones incidan sobre áreas verdes de uso público o arbolado urbano.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;8</span><span class="art-name">Participación de los Actores del Sistema</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La participación de los actores del Sistema se ejerce conforme a sus competencias, funciones, títulos habilitantes o responsabilidades específicas, sin sustituir los procedimientos de autorización, evaluación, supervisión, fiscalización o sanción previstos en la Ordenanza, el presente Reglamento y demás normativa aplicable. La intervención de un actor en mecanismos de coordinación no exonera el cumplimiento de las obligaciones técnicas, administrativas, ambientales o compensatorias que correspondan.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;9</span><span class="art-name">Programas de arborización en áreas verdes de uso y dominio público</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Las municipalidades distritales como las entidades administradoras de áreas verdes de uso y dominio público, dentro de su responsabilidad de acrecentar el arbolado urbano dentro de su jurisdicción, planifican y ejecutan programas de arborización de áreas verdes de uso y dominio público, las bases del programa, así como los principales avances de su ejecución se deberán reportar en los avances del PDAV.</li><li>En el marco de convenios interinstitucionales con otras entidades del Estado donde estas actúen como proveedoras de las especies arbóreas, la responsabilidad de su aclimatación corresponderá exclusivamente a la municipalidad distrital o a la entidad administradora del área verde de uso y dominio público intervenida. Para tal fin, toda actividad de arborización organizada por la entidad proveedora deberá ser previamente coordinada y autorizada por la autoridad local bajo cuya jurisdicción se encuentren las zonas a arborizar.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#245c38;color:#245c38">Cap. II: PLAMAVE y Plan Distrital de Áreas Verdes (PDAV)</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;10</span><span class="art-name">Elaboración y contenido del PLAMAVE</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El Plan Metropolitano de Áreas Verdes - PLAMAVE es elaborado por la Subgerencia de Gestión Ambiental, articulado y dictaminado por la Gerencia de Servicios a la Ciudad y Gestión Ambiental, y elevado al Concejo Metropolitano de Lima para su aprobación definitiva, o las que hagan sus veces, sobre la base de la información remitida por las municipalidades distritales, entidades administradoras de áreas verdes y demás actores del Sistema Metropolitano de Áreas Verdes. Constituyen insumos obligatorios para su formulación los Planes Distritales de Áreas Verdes, los Inventarios Distritales de Áreas Verdes y Arbolado Urbano, los inventarios de áreas verdes de administración especial, los reportes anuales de avance de cierre brechas en cantidad, calidad, sostenibilidad y accesibilidad de las áreas verdes, la información sobre cobertura vegetal, cobertura arbórea, accesibilidad, sistemas de riego, fuentes de agua, mantenimiento, viveros, compensaciones, tratamientos arbóreos y demás información técnica necesaria para la planificación metropolitana. El PLAMAVE tiene un horizonte de cinco (05) años y deberá ser actualizado o renovado antes del vencimiento de dicho periodo, considerando la evaluación de cumplimiento del instrumento vigente y los insumos técnicos actualizados.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;11</span><span class="art-name">Elaboración y contenido del PDAV</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Las municipalidades distritales elaboran, aprueban y actualizan su Plan Distrital de Áreas Verdes - PDAV, con un horizonte de cinco (05) años, sobre la base del Inventario Distrital de Áreas Verdes y Arbolado Urbano, sus instrumentos de planificación urbana y paisajística, la disponibilidad hídrica, la capacidad operativa y presupuestal, las condiciones de mantenimiento, la cobertura vegetal, la cobertura arbórea, la accesibilidad ciudadana y las brechas identificadas en su jurisdicción. El PDAV deberá contener, como mínimo:</li><li>Diagnóstico del estado de las áreas verdes y del arbolado urbano del distrito.</li><li>Identificación de brechas de áreas verdes, cobertura arbórea, accesibilidad, riego, mantenimiento y sostenibilidad hídrica.</li><li>Objetivos, indicadores y metas de corto, mediano y largo plazo para el periodo de vigencia del plan.</li><li>Programación de acciones para la creación, recuperación, ampliación, rehabilitación, mantenimiento y mejora de áreas verdes.</li><li>Estrategias de arborización urbana, incremento de cobertura de copa y manejo sostenible del arbolado urbano.</li><li>Tipos de riego por metro cuadrado de área verde actualmente existentes.</li><li>Tipos de fuente de agua para el riego de las áreas verdes por metro cuadrado.</li><li>Estrategias para la sustitución progresiva del uso de agua potable por aguas residuales tratadas u otras fuentes alternativas para riego.</li><li>Acciones para la implementación, mejora o ampliación de sistemas de riego tecnificado.</li><li>Estrategias para la implementación o fortalecimiento de viveros municipales, producción vegetal, compostaje y valorización de residuos vegetales.</li><li>Cronograma de implementación, matriz de seguimiento e indicadores de avance.</li><li>Los órganos o entidades responsables de la administración de Parques Zonales, Parques Metropolitanos y demás áreas verdes de administración especial previstas en la Ordenanza, deberán elaborar su Plan de Áreas Verdes y Arbolado Urbano, en lo que resulte aplicable. Dicho plan deberá contener, como mínimo y de manera análoga los literales descritos en el presente artículo.</li><li>El PDAV o Plan de Áreas Verdes y Arbolado Urbano, según sea el caso, será aprobado por la Municipalidad Distrital competente conforme a sus atribuciones orgánicas, mediante la resolución de la gerencia encargada de la gestión y mantenimiento de las áreas verdes correspondiente y remitido a la Municipalidad Metropolitana de Lima, adjuntando además del contenido mínimo previamente citado, el Informe Técnico de sustento, la resolución de aprobación y el visto bueno del área de planificación correspondiente.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;12</span><span class="art-name">Seguimiento y reporte de avance del PDAV</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Las municipalidades distritales, así como los órganos o entidades responsables de la administración de Parques Zonales, Parques Metropolitanos y demás áreas verdes de administración especial previstas en la Ordenanza, deberán remitir anualmente a la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, hasta el último día hábil del mes de marzo del año presente, el reporte de avance de ejecución de su PDAV correspondiente al año anterior, conforme al formato aprobado. Dicho reporte deberá informar, como mínimo:</li><li>Nuevas áreas verdes implementadas</li><li>Áreas verdes recuperadas o rehabilitadas</li><li>Incremento de cobertura arbórea</li><li>Arbolado plantado, arbolado trasladado y arbolado talado</li><li>Sistemas de riego implementados</li><li>Uso de aguas residuales tratadas u otras fuentes alternativas</li><li>Compensaciones de áreas verdes y arbolado urbano ejecutadas</li><li>Dificultades identificadas y acciones programadas</li><li>Indicadores</li><li>Presupuesto asignado y presupuesto estimado para el siguiente periodo, detallando si se va a financiar completamente por sus propios recursos o si se solicitará a otra entidad municipal.</li><li>El formato sugerido para la elaboración del PDAV, así como los indicadores establecidos, se adjunta en el Anexo 01.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#245c38;color:#245c38">Cap. III: Inventarios de áreas verdes y arbolado urbano</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;13</span><span class="art-name">Formatos para los inventarios</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, o la que haga sus veces, elabora los formatos oficiales para los Inventarios Distritales de Áreas Verdes y Arbolado Urbano, previstos en la Ordenanza; los cuales son igualmente válidos para los demás administradores de las áreas verdes de uso público y arbolado urbano. Dichos formatos deberán permitir el registro de información técnica, georreferenciada, verificable, comparable y útil para la identificación de brechas, planificación, valorización, compensación, supervisión y seguimiento del Sistema Metropolitano de Áreas Verdes.</li><li>Los formatos para la elaboración de los inventarios de áreas verdes y arbolado urbano se adjuntan en el Anexo 02.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;14</span><span class="art-name">Inventario Distrital de Áreas Verdes y Arbolado Urbano</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Las municipalidades distritales elaboran, actualizan y remiten a la Municipalidad Metropolitana de Lima el Inventario Distrital de Áreas Verdes y Arbolado Urbano de su jurisdicción, conforme al formato aprobado por la autoridad metropolitana competente; asimismo, los órganos o entidades responsables de la administración de Parques Zonales, Parques Metropolitanos y demás áreas verdes de administración especial previstas en la Ordenanza deberán elaborar, actualizar y remitir el inventario de áreas verdes y arbolado urbano correspondiente al espacio bajo su administración, en lo que resulte aplicable según su naturaleza, escala, infraestructura, régimen de gestión y finalidad. Dichos inventarios constituyen insumos técnicos para la elaboración de los Planes Distritales de Áreas Verdes, Inventario Metropolitano de Áreas Verdes, la formulación y actualización del PLAMAVE, la identificación de brechas, la programación de inversiones, la valorización económica, la compensación ambiental y la toma de decisiones en materia de planificación, conservación, mantenimiento y recuperación de áreas verdes y arbolado urbano.</li><li>El Inventario de Arbolado Urbano deberá comprender la totalidad de las especies arbóreas ubicadas en las áreas verdes de uso público bajo administración de la entidad responsable y presentarse de manera integrada y consolidada en un único formato de registro, independientemente de la clasificación o tipología de las áreas verdes donde se encuentren. De manera análoga los inventarios de áreas verdes deberán comprender la totalidad de metros cuadrados de superficie destinada al área verde de uso público bajo su administración y presentar de manera integrada y consolidada en un único registro, independientemente de la clasificación o tipología de las áreas verdes donde se encuentren. El inventario tendrá una vigencia de tres (3) años.</li><li>La Municipalidad Metropolitana de Lima únicamente validará los Inventarios Distritales de Áreas Verdes y Arbolado Urbano que apliquen el formato único adjuntado en el Anexo 02 del presente reglamento.  Por lo que no se admite la remisión de formatos separados o fraccionados por parques, bermas, jardines, alamedas, plazas, vías, zonas vecinas, sectores catastrales u otras categorías de áreas verdes de uso público, ni cualquier otra forma de segmentación, distinta al formato aprobado.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;15</span><span class="art-name">Contenido mínimo de los inventarios</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El inventario de áreas verdes deberá contener, como mínimo:</li><li>Identificación del área verde</li><li>Ubicación georreferenciada y por frontis de predio de corresponder</li><li>Tipo de área verde conforme al Anexo II de la Ordenanza</li><li>Superficie total</li><li>Superficie con cobertura vegetal</li><li>Accesibilidad</li><li>Sistema de riego</li><li>Fuente de agua</li><li>Estado de conservación</li><li>Infraestructura</li><li>Mobiliario urbano</li><li>Responsable de administración</li><li>Mantenimiento.</li><li>El inventario del arbolado urbano deberé contener como mínimo:</li><li>Registro del arbolado urbano, indicando especie, nombre común, ubicación georreferenciada y por frontis de predio, dasometría.</li><li>Estado físico, sanitario y estructural</li><li>Condición de riesgo</li><li>Tratamientos requeridos</li><li>Demás campos establecidos en el formato aprobado por la entidad competente.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;16</span><span class="art-name">Remisión, validación, consolidación y actualización de los inventarios</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Las Municipalidades Distritales, los Administradores de los Parques Zonales, Parques Metropolitanos y demás áreas verdes de Administración Especial deberán remitir el Inventario de Áreas Verdes y el Inventario de Arbolado Urbano de las áreas bajo su administración a la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima. Dichos inventarios deberán se actualizados y presentados cada tres (03) años; como máximo hasta el 30 de noviembre del último año de vigencia del inventario.</li><li>Para su presentación, el inventario deberá remitirse en un único libro de hoja de cálculo editable, conforme al formato aprobado, estructurado en cuatro (4) hojas: “1A Inventario del arbolado urbano”, “2A Data consolidada del Inventario de arbolado urbano”, “1B Inventario de áreas verdes” y “2B Data consolidada del inventario de áreas verdes”. Las hojas 1A y 1B contendrán el registro detallado de campo, mientras que las hojas 2A y 2B consolidarán los indicadores, totales y resultados agregados correspondientes. La remisión deberá incluir un enlace a la carpeta digital con la documentación sustentadora consistente en las fichas de registro de levantamiento de información de campo; las cuales deberán ser firmadas por el funcionario responsable. Para efectos del inventario arbóreo, no se incluirán individuos con altura total menor a 2.50 m y DAP inferior a 3.0 cm.</li><li>La Subgerencia de Gestión Ambiental revisa la consistencia de la información presentada y puede formular observaciones, solicitar subsanaciones o requerir información complementaria. Con la información validada, se procede a la consolidación del Inventario Metropolitano de Áreas Verdes y Arbolado Urbano, el cual se actualiza cada tres (3) años, sobre la base de los inventarios distritales, los inventarios de áreas verdes de los órganos o entidades responsables de la administración de Parques Zonales, Parques Metropolitanos y demás áreas verdes de administración especial previstas en la Ordenanza y demás información técnica aplicable.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#245c38;color:#245c38">Cap. IV: Valorización económica de las áreas verdes y arbolado urbano</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;17</span><span class="art-name">Finalidad de la valorización económica</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La valorización económica de las áreas verdes y la valorización económica del arbolado urbano constituyen instrumentos técnicos diferenciados y complementarios, orientados a determinar el valor económico asociado a sus atributos físicos, funcionales, paisajísticos, patrimoniales y a los servicios ecosistémicos. Su aplicación procede en los casos de tala, traslado poda severa, que ocasione la muerte de la especie arbórea, daño, afectación, reducción, pérdida, restitución o compensación de áreas verdes y arbolado urbano; asimismo, permite determinar compensaciones ambientales, calcular el costo de recuperación de áreas afectadas, sustentar medidas de restitución o indemnización por daño, y facilitar la incorporación del inventario valorizado arbolado urbano, como activo biológico de la entidad competente, conforme a lo establecido en la Ordenanza y el presente Reglamento.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;18</span><span class="art-name">Procedimiento de valorización económica del arbolado urbano</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La valorización económica del arbolado urbano se efectúa mediante un procedimiento aprobada por la Municipalidad Metropolitana de Lima, tomando como referencia técnica la metodología de la Asociación Española de Parques y Jardines Públicos denominada Norma Granada v.2020, adaptada a las condiciones urbanas, ambientales, climáticas, operativas y socioeconómicas de Lima Metropolitana, así como a los costos locales de producción, adquisición, instalación, establecimiento, mantenimiento y reposición de especies arbóreas.</li><li>Para efectos de la valorización, las especies arbóreas se clasifican en sustituibles y no sustituibles, considerándose especies arbóreas sustituibles aquellas que, por sus dimensiones, etapa de desarrollo y condición de establecimiento, pueden ser repuestos mediante la adquisición e instalación de un nuevo ejemplar de características equivalentes, tomando como base el valor promedio de mercado en vivero, al cual se adicionan los costos de traslado, plantación, riego, mantenimiento y aclimatación necesarios hasta alcanzar condiciones adecuadas de prendimiento, estabilidad y desarrollo urbano.</li><li>Se consideran individuos de especies arbóreas no sustituibles a aquellos ejemplares consolidados, maduros, singulares o de alto valor funcional, cuya dimensión, aporte ecosistémico, valor paisajístico o función ambiental no pueden ser repuestos de manera inmediata mediante la plantación de un nuevo individuo. En estos casos, la valorización considera la relación entre sus dimensiones y su valor proporcional, incorporando factores intrínsecos y extrínsecos tales como especie, estado físico, sanitario y estructural, ubicación urbana, singularidad, visibilidad, valor paisajístico, provisión de sombra, aporte ambiental, mitigación de contaminación y demás servicios ecosistémicos que el individuo brinda al entorno urbano.</li><li>El procedimiento, fórmulas, factores, criterios de clasificación y forma de aplicación de la valorización económica de especies arbóreas se detallan en el Anexo 03 del presente Reglamento.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;19</span><span class="art-name">Procedimiento de valorización económica de áreas verdes</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La valorización económica de áreas verdes se efectúa mediante metodología basada en la Norma Granada y adaptada a la realizada y casuística ciudad de Lima Metropolitana, orientada a determinar el valor técnico referencial de la superficie verde afectada, reducida, deteriorada, sustituida o sujeta a restitución o compensación. Dicha valorización considera, como mínimo, el valor del suelo urbano o espacio físico, el valor de instalación o reposición de la cobertura vegetal, el costo de mantenimiento y, cuando corresponda, el valor de los servicios ecosistémicos asociados a la cobertura vegetal, de acuerdo con la naturaleza, ubicación, estado de conservación, funcionalidad ambiental, cobertura vegetal y condiciones de uso público del área verde.</li><li>Para la valorización económica de las áreas verdes, la cobertura vegetal herbácea, césped, cubresuelo y demás coberturas vegetales de baja altura podrán ser valorizados sobre la base del costo de mantenimiento por metro cuadrado, calculado a partir de los registros de arbitrios declarados por las entidades administradoras ante el Servicio de Administración Tributaria de Lima (SAT). Asimismo, las entidades administradoras podrán remitir a la Municipalidad Metropolitana de Lima la actualización de la información declarada al SAT, a efectos de su consideración en el proceso de valorización.</li><li>El valor del suelo urbano o espacio físico tendrá carácter estrictamente técnico y referencial, y no constituye habilitación para la venta, transferencia, disposición, desafectación, enajenación o pérdida de la condición de bien de uso y dominio público del área verde. Cuando el área verde contenga especies arbóreas, estas serán valorizadas de manera independiente conforme al procedimiento de valorización económica del arbolado urbano, evitando duplicidades en la determinación del valor total.</li><li>El procedimiento, fórmulas, factores, criterios de aplicación y forma de cálculo de la valorización económica de áreas verdes se detallan en el Anexo 04 del presente Reglamento.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#245c38;color:#245c38">Cap. V: Plan de Manejo de Áreas Verdes y Arbolado Urbano</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;20</span><span class="art-name">Finalidad del Plan de Manejo de Áreas Verdes y Arbolado Urbano</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El Plan de Manejo de Áreas Verdes y Arbolado Urbano tiene por objeto garantizar la conservación, mantenimiento, recuperación o restitución de las áreas verdes y del arbolado urbano afectado por procedimientos sobre áreas verde de dominio y uso público por procedimientos del arbolado urbano solicitados por la unidad promotora, titular del proyecto, entidad ejecutora o responsable de la intervención, según corresponda. Este plan debe ser elaborado y firmado por profesional forestal, agrónomo o biólogo, con título profesional, colegiatura hábil y acreditación de formación o certificación o diploma o diplomado en arboricultura, adjuntando su currículum vitae documentado.</li><li>La Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, o la que haga sus veces, elabora los formatos oficiales para los Planes de Manejo de Áreas Verdes y Arbolado Urbano, previstos en la Ordenanza. Dichos formatos deberán permitir el registro de información técnica, verificable, comparable y útil para la planificación, preservación, supervisión y seguimiento del estado de las Áreas Verdes y Arbolado Urbano intervenido y, cuando aplique, de la compensación ambiental correspondiente.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;21</span><span class="art-name">Plan de Manejo de Áreas Verdes y Arbolado Urbano ante Procedimientos sobre Áreas Verdes de Uso Público</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El Plan de Manejo de Áreas Verdes y Arbolado Urbano referido deberá presentarse adjunto al informe técnico que acompaña a las solicitudes de autorización de Intervenciones menores que afecten áreas verdes de uso público, intervención en infraestructura de soporte, equipamientos compatibles dentro de áreas verdes de uso público y autorización a procesos de intervención en infraestructura subterránea.</li><li>El Plan de Manejo de Áreas Verdes y Arbolado Urbano, en su condición de documento técnico obligatorio, deberá contener como mínimo:</li><li>Información general que identifique el procedimiento administrativo</li><li>Inventario del área verde y/o arbolado urbano dentro del área de interferencia</li><li>El cronograma de ejecución de las actividades</li><li>Medidas de protección</li><li>Partidas presupuestales de mantenimiento del área verde y/o arbolado urbano aplicables.</li><li>Asimismo, incorporará de forma obligatoria la identificación de los impactos ambientales directos e indirectos y sus medidas de mitigación correspondiente, sin perjuicio de las medidas de compensación correspondiente. Todo ello sujeto a la solicitud de documentación adicional sustentadora en virtud a la complejidad del caso.</li><li>Los requisitos técnicos específicos serán remitidos según el tipo de procedimiento solicitado y estos se mencionan en el formato correspondiente para la presentación del Plan de Manejo de Áreas Verdes y Arbolado Urbano, el cual se detalla en el Anexo 05 del presente Reglamento.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;22</span><span class="art-name">Plan de Manejo de Áreas Verdes y Arbolado Urbano para tala</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El plan de manejo mencionado constituye un requisito obligatorio que debe integrarse a la propuesta de procedimientos de autorización de tala. Su contenido mínimo deberá especificar:</li><li>Procedimiento de ejecución de la tala</li><li>Medidas de seguridad consideraras</li><li>Mitigación de los riesgos existentes durante la ejecución de la tala</li><li>Cantidad de individuos forestales a compensar, incluyendo las especies, la ubicación estimada, y el cronograma de manejo correspondientes al primer año de establecimiento de las plantaciones</li><li>Todo ello sujeto a la solicitud de documentación adicional sustentadora en virtud a la complejidad del caso.</li><li>El formato vinculante para la presentación de dicho plan se detalla en el Anexo 06 del presente Reglamento.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;23</span><span class="art-name">Plan de Manejo de Áreas Verdes y Arbolado Urbano para poda severa</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El plan de manejo mencionado constituye un requisito obligatorio que debe integrarse a la propuesta de solicitud de poda severa. Su contenido mínimo deberá precisar:</li><li>Epoca de intervención</li><li>Metodología de ejecución</li><li>Disponibilidad hídrica post intervención</li><li>Labores de mantenimiento y frecuencia de monitoreo del estado integral de la especie arbórea luego de la aplicación de la poda severa</li><li>Todo ello sujeto a la solicitud de documentación adicional sustentadora en virtud a la complejidad del caso.</li><li>El formato vinculante para la presentación de dicho plan se detalla en el Anexo 07 del presente Reglamento.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;24</span><span class="art-name">Plan de Manejo de Áreas Verdes y Arbolado Urbano para traslado</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El plan de manejo mencionado constituye un requisito obligatorio que debe integrarse a la propuesta de solicitud de traslado, el cual deberá desarrollar el procedimiento técnico de preparación, extracción, conformación del cepellón, traslado, plantación, mantenimiento y monitoreo de la especie arbórea. La duración del plan de manejo debe estimarse hasta el prendimiento del ejemplar arbóreo trasladado.</li><li>Toda documentación remitida está sujeta a la solicitud de documentación adicional sustentadora en virtud a la complejidad del caso</li><li>Los detalles del procedimiento y sus características se encuentran en el en el Anexo 08 del presente Reglamento.</li></ul></div>
+</div><div class="art-card" style="--ac:#245c38">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#245c38">Art.&nbsp;25</span><span class="art-name">Plan de Manejo de Áreas Verdes y Arbolado Urbano ante Procedimientos sobre Áreas Verdes de Uso Público que involucren procedimientos del arbolado urbano</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Cuando los procedimientos vinculados a áreas verdes de uso público impliquen acciones de tala, traslado y/o poda severa del arbolado urbano, el administrado deberá incorporar en su solicitud los anexos técnicos correspondientes, según lo dispuesto en los artículos anteriores del presente capítulo. Todo ello sujeto a la solicitud de documentación adicional sustentadora en virtud a la complejidad del caso</li></ul></div>
+</div></div></div>
+<div class="panel" id="tab-titulo3"><div class="phdr" style="background:linear-gradient(135deg,#2e704818 0%,#eef5f1 100%);border-left:5px solid #2e7048">
+  <div class="phdr-tree"><svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="40" width="4" height="14" fill="#5a3a1a" rx="1"/><ellipse cx="28" cy="26" rx="22" ry="16" fill="#245c38" opacity=".85"/><ellipse cx="18" cy="20" rx="13" ry="10" fill="#2d7a4f" opacity=".7"/><ellipse cx="36" cy="22" rx="12" ry="10" fill="#38845a" opacity=".6"/><ellipse cx="28" cy="16" rx="10" ry="8" fill="#3d9460" opacity=".5"/></svg></div>
+  <div>
+    <div class="phdr-title" style="color:#2e7048">TÍTULO III — Procedimientos sobre Áreas Verdes de Uso Público</div>
+    <div class="phdr-sub">Arts. 26–46 &nbsp;·&nbsp; <strong>21 artículos</strong></div>
+  </div>
+</div>
+<div class="summary-block" style="border-left:4px solid #2e7048">
+  <div class="summary-label" style="color:#2e7048">&#128196; Resumen del título</div>
+  <p class="summary-text">Regula todos los procedimientos de autorización para intervenir en áreas verdes de uso público: desde obras menores hasta infraestructura en subsuelo, accesos vehiculares en bermas, habilitación de equipamiento compatible y reconocimiento de Áreas de Reserva Ambiental. Todo procedimiento requiere doble evaluación distrital-metropolitana y genera obligación de restitución y compensación.</p>
+  <div class="hl-label" style="color:#2e7048">&#9733; Puntos clave</div>
+  <ul class="hl-list"><li>Intervenciones menores: toda obra, instalación u ocupación temporal en área verde requiere autorización previa de la SGA-MML con opinión técnica distrital.</li><li>Infraestructura de soporte: kioscos, juegos, luminarias y equipamiento compatible requieren expediente técnico con análisis de compatibilidad ambiental.</li><li>Bermas laterales: los accesos vehiculares son una excepción que exige demostrar necesidad técnica y respetar el área verde remanente.</li><li>Infraestructura subterránea: ductos, tuberías y estructuras bajo áreas verdes requieren estudio de suelos y plan de manejo del arbolado afectado.</li><li>Áreas de Reserva Ambiental: postulación, evaluación por el IMP y reconocimiento mediante Ordenanza Metropolitana.</li><li>Gestión hídrica: obligación de sustituir progresivamente agua potable por aguas residuales tratadas y fuentes alternativas.</li></ul>
+</div>
+<div class="chap"><div class="chap-hd" style="border-left-color:#2e7048;color:#2e7048">Cap. I: Protección, intervención y restitución de áreas verdes</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;26</span><span class="art-name">Procedimiento de Autorización de Intervenciones menores que Afecten Áreas Verdes de Uso Público</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El presente procedimiento se aplica a toda intervención, obra, instalación, ocupación temporal, excavación, ejecución de redes de servicios públicos o actuación que pueda afectar áreas verdes de uso público deberá contar con la solicitud formulada por la unidad promotora, titular del proyecto, entidad ejecutora o responsable de la intervención, según corresponda. Dicha solicitud deberá ser presentada ante la municipalidad distrital de la jurisdicción o ante la entidad administradora de áreas verdes de uso público correspondiente, para su revisión técnica preliminar por el área competente en gestión, conservación o mantenimiento de áreas verdes y posterior emisión de opinión favorable.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;27</span><span class="art-name">Requisitos mínimos de la solicitud</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Para el caso de una solicitud, esta deberá contener, como mínimo:</li><li>Memoria descriptiva con sustento de necesidad técnica de la intervención.</li><li>Planos de ubicación e intervención.</li><li>Método constructivo</li><li>Cronograma de ejecución.</li><li>Responsable técnico.</li><li>Registro fotográfico.</li><li>Plan de Manejo de las Áreas Verdes y del Arbolado Urbano</li><li>Cuando corresponda, deberá incluir la información técnica necesaria para que la municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, determine la compensación ambiental aplicable, priorizando la reposición física equivalente y proporcional del área verde afectada y, solo de no existir disponibilidad física viable, la compensación sobre la base de la valorización económica correspondiente.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;28</span><span class="art-name">Evaluación preliminar y opinión técnica</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, a través del área competente en gestión, conservación o mantenimiento de áreas verdes, evaluará la necesidad técnica de la intervención, el área comprometida, el carácter temporal o permanente de la afectación, los componentes afectados, las alternativas de menor impacto, las medidas de protección propuestas, la restitución prevista y, de corresponder, la compensación ambiental aplicable. Esta evaluación no implica convalidar la compatibilidad de la obra civil con la finalidad del área verde, sino verificar que la intervención sea técnicamente necesaria, se limite al área estrictamente indispensable, reduzca al mínimo la afectación de la cobertura vegetal, suelo, sistema de riego, arbolado urbano y demás componentes, y cuente con medidas suficientes de protección, restitución y compensación. Emitida la opinión técnica favorable, la solicitud será remitida por la Municipalidad Distrital o entidad Administradora del Área Verde a la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, o la que haga sus veces, para la evaluación técnica correspondiente.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;29</span><span class="art-name">Evaluación metropolitana, autorización, ejecución y restitución</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, o la que haga sus veces, evaluará la solicitud remitida por la Municipalidad Distrital o la Administraría del Área Verde, pudiendo realizar inspección técnica, formular observaciones, requerir información complementaria o solicitar ajustes a la propuesta. De resultar procedente, emitirá el acto resolutivo correspondiente, solicitando el cumplimiento las condiciones de ejecución, medidas de protección, obligaciones de mantenimiento, restitución o compensación, y demás disposiciones establecidas en el Plan de Manejo de Áreas Verdes aprobado. Durante la ejecución, el responsable de la intervención deberá limitar sus trabajos al área autorizada, implementar las medidas aprobadas y respetar la Zona de Protección de la Especie Arbórea - ZPA, salvo autorización expresa sustentada técnicamente.</li><li>Concluida la intervención, deberá restituir íntegramente el área afectada en condiciones iguales o mejores a las existentes antes de la intervención y comunicarlo a la municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, adjuntando informe técnico de cierre, registro fotográfico y medios de verificación, sin perjuicio de las supervisiones técnicas inopinadas y de la derivación al órgano fiscalizador competente en caso de incumplimiento.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#2e7048;color:#2e7048">Cap. II: Infraestructura de soporte y equipamiento compatible</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;30</span><span class="art-name">Procedimiento de intervención en infraestructura de soporte y/o equipamientos compatibles dentro de Áreas Verdes de Uso Público</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El presente procedimiento se aplica a la implementación, habilitación, remodelación, ampliación o modificación de infraestructura de soporte y/o equipamiento compatible en parques metropolitanos, parques zonales, parques distritales y demás áreas verdes de uso público cuya naturaleza, escala, configuración y capacidad de carga permitan el desarrollo de actividades de recreación activa o pasiva.</li><li>En áreas verdes complementarias, bermas, rotondas, jardines de aislamiento, áreas residuales u otros espacios de menor escala, solo podrán admitirse intervenciones mínimas de infraestructura de soporte, siempre que resulten indispensables para su acceso, mantenimiento, riego, conservación o sostenibilidad, y no desnaturalicen su función ecológica, paisajística o vial.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;31</span><span class="art-name">Formulación y contenido mínimo del expediente</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El expediente deberá ser formulado por la municipalidad distrital de la jurisdicción o por la entidad administradora de áreas verdes de uso público, según corresponda. Cuando el proyecto sea elaborado por una unidad orgánica distinta a la responsable de la gestión, conservación o mantenimiento de las áreas verdes, unidad formuladora, dicha unidad deberá remitir previamente la solicitud al área competente en áreas verdes de la misma entidad para su evaluación técnica y posterior emisión de opinión favorable.</li><li>El expediente deberá contener como mínimo:</li><li>Memoria descriptiva de la intervención, sustento de necesidad y compatibilidad</li><li>Planos de ubicación, distribución y detalle</li><li>Plan de Manejo de Áreas Verdes y del Arbolado Urbano</li><li>Cuando corresponda, deberá incluir la información técnica necesaria para determinar la compensación ambiental aplicable.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;32</span><span class="art-name">Evaluación preliminar y opinión técnica</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, a través del área competente en áreas verdes, evaluará la necesidad de la intervención, su carácter accesorio, proporcional y compatible con la finalidad ecológica, paisajística, recreativa y de uso público del área verde, así como sus posibles efectos sobre la cobertura vegetal, arbolado urbano, permeabilidad del suelo, accesibilidad, uso público e integridad paisajística.</li><li>Asimismo, verificará que la infraestructura de soporte o el equipamiento compatible en superficie, considerados de manera individual o conjunta, no excedan el treinta por ciento (30 %) de la superficie total del área verde, debiendo mantenerse como mínimo un setenta por ciento (70 %) de cobertura verde.</li><li>Emitida la opinión técnica favorable, el expediente será remitido por la Municipalidad Distrital o la entidad administradora del Área Verde a la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, o la que haga sus veces, para la evaluación técnica final.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;33</span><span class="art-name">Evaluación final y acto resolutivo</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, o la que haga sus veces, evaluará el expediente remitido, pudiendo realizar inspección técnica, formular observaciones, requerir información complementaria o solicitar ajustes a la propuesta.</li><li>De resultar procedente, emitirá el acto resolutivo correspondiente, estableciendo las condiciones técnicas de ejecución, medidas de protección, plazo de vigencia, obligaciones de mantenimiento, restitución o compensación, y demás disposiciones establecidas en el Plan de Manejo de Áreas Verdes aprobado con el fin de garantizar la conservación del área verde y del arbolado urbano.</li><li>La ejecución por terceros, contratistas o concesionarios no traslada la responsabilidad técnica de la intervención, la cual permanece a cargo de la municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, que promovió el expediente, sin perjuicio de las responsabilidades contractuales, administrativas o legales que correspondan.</li><li>La municipalidad distrital o la entidad administradora del área verde de uso público correspondiente será responsable de supervisar el cumplimiento de las medidas establecidas en el Plan de Manejo de Áreas Verdes y/o Arbolado Urbano aprobado durante la ejecución de las actividades. Una vez concluida la intervención, deberá remitir a la Subgerencia de Gestión Ambiental el Informe Técnico de cierre correspondiente, sin perjuicio de la facultad de dicha Subgerencia para realizar las acciones de supervisión y verificación que considere necesarias.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#2e7048;color:#2e7048">Cap. III: Bermas laterales y accesos vehiculares</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;34</span><span class="art-name">Autorización para la habilitar acceso a los estacionamientos en bermas laterales</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El presente procedimiento se aplica a la habilitación excepcional de accesos vehiculares sobre bermas laterales destinadas a área verde, cuando dichos accesos resulten necesarios para permitir el ingreso hacia estacionamientos ubicados dentro de predios ubicados en el frontis de la precitada berma lateral.</li><li>La intervención deberá limitarse a la dimensión estrictamente necesaria para garantizar el acceso vehicular, sin exceder el cincuenta por ciento (50 %) de la superficie del tramo de berma lateral correspondiente al frontis del predio. La superficie restante deberá conservarse o restituirse como área verde, quedando prohibida su utilización como estacionamiento, área de maniobra, depósito, ampliación de vereda, superficie dura no justificada u otro uso ajeno a su finalidad ecológica, paisajística y urbana.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;35</span><span class="art-name">Formulación y contenido mínimo de la Solicitud</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La solicitud deberá ser formulada por el titular del proyecto o responsable de la intervención, y presentada ante la municipalidad distrital de la jurisdicción para su evaluación preliminar y posterior emisión de opinión favorable.</li><li>La solicitud deberá contener, como mínimo:</li><li>Memoria descriptiva</li><li>Sustento de necesidad del acceso vehicular</li><li>Planos de ubicación y detalle de la interferencia entre el acceso vehicular y la berma lateral</li><li>Metrado del tramo de berma lateral correspondiente al frontis del predio</li><li>Metrado del área propuesta para acceso vehicular</li><li>Metrado del área verde remanente</li><li>Registro fotográfico</li><li>Identificación de cobertura vegetal y arbolado urbano existente</li><li>Propuesta de diseño del acceso</li><li>Medidas de protección del área verde</li><li>Propuesta de restitución del área verde remanente</li><li>Responsable técnico de la intervención</li><li>Cuando corresponda, deberá incluir la información técnica necesaria para determinar la compensación ambiental aplicable por la superficie de área verde afectada.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;36</span><span class="art-name">Evaluación preliminar y opinión técnica</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La municipalidad distrital, a través del área competente en áreas verdes, evaluará la necesidad del acceso vehicular, la dimensión propuesta, la afectación sobre la berma lateral, la cobertura vegetal, el arbolado urbano, el sistema de riego, la continuidad paisajística, la restitución del área verde remanente y la compensación por el área verde afectada.</li><li>Para el cálculo del límite máximo permitido, se considerará como área base la superficie del tramo de berma lateral correspondiente al frontis del predio. El área afectada comprende toda superficie endurecida, modificada o destinada al acceso vehicular, incluyendo rampas, rebajes, losas, pavimentos, radios de giro, sardineles u otros elementos asociados al ingreso vehicular.</li><li>Emitida la opinión técnica favorable de la municipalidad distrital, la solicitud será remitida a la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, o la que haga sus veces, para la evaluación técnica final.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;37</span><span class="art-name">Evaluación final y opinión técnica</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La Subgerencia de Gestión Ambiental evaluará la solicitud, pudiendo formular observaciones, requerir información complementaria o solicitar ajustes al diseño propuesto. De resultar procedente, emitirá la opinión favorable correspondiente respecto de las intervenciones y alcances contenidos en la solicitud y documentación técnica presentada, estableciendo las condiciones técnicas de ejecución, restitución, mantenimiento y compensación aplicables.</li><li>La superficie restante de la berma lateral deberá conservarse o restituirse como área verde, con tratamiento paisajístico, cobertura vegetal y, de corresponder, arbolado urbano. La superficie de área verde afectada por la habilitación del acceso vehicular deberá ser compensada conforme al artículo 26 de la Ordenanza y a lo indicado en el presente Reglamento.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#2e7048;color:#2e7048">Cap. IV: Infraestructura en subsuelo</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;38</span><span class="art-name">Autorización a procesos de intervención en infraestructura subterránea</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El presente procedimiento se aplica a los proyectos de infraestructura subterránea cuya ocupación permanente se ubique total o predominantemente bajo la rasante de áreas verdes de uso público, tales como reservorios, sistemas de almacenamiento de agua para riego, cuartos de máquinas, sistemas de bombeo, infraestructura de drenaje, redes técnicas, infraestructura de soporte subterránea, estacionamientos subterráneos u obras similares, siempre que sean compatibles con la finalidad paisajística, recreativa, de uso público, sostenibilidad hídrica, operación, mantenimiento o gestión del área verde, y que no desnaturalicen su condición ni comprometan su cobertura vegetal, arbolado urbano, continuidad paisajística, funcionalidad ambiental o uso público.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;39</span><span class="art-name">Formulación y contenido mínimo del expediente</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El expediente técnico deberá ser formulado por la entidad promotora, titular del proyecto o responsable de la intervención, y presentado ante la municipalidad distrital de la jurisdicción o entidad administradora de áreas verdes de uso público, según corresponda. El cual deberá contener, como mínimo:</li><li>Memoria descriptiva</li><li>Sustento técnico de necesidad y compatibilidad</li><li>Planos de ubicación, planta, cortes y secciones</li><li>Profundidad de la infraestructura proyectada</li><li>Identificación de componentes permanentes en superficie</li><li>Estudio de suelos</li><li>Plan de Manejo de Áreas Verdes y del Arbolado Urbano</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;40</span><span class="art-name">Evaluación preliminar y opinión técnica</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, a través del área competente en áreas verdes, evaluará la necesidad del proyecto, sus impactos sobre la superficie del área verde, la compatibilidad de la infraestructura subterránea con la finalidad del espacio, el perfil mínimo de suelo, el volumen de suelo útil, el desarrollo radicular, la cobertura vegetal, el arbolado urbano, la accesibilidad, el uso público, la continuidad paisajística y las medidas de restitución o compensación propuestas.</li><li>Emitida la opinión técnica favorable, el expediente técnico será remitido por la municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, a través del área competente en áreas verdes, a la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, o la que haga sus veces, para la evaluación técnica final y posterior emisión de opinión favorable.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;41</span><span class="art-name">Evaluación final y acto resolutivo</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La Subgerencia de Gestión Ambiental evaluará el expediente técnico remitido, pudiendo realizar inspección técnica, formular observaciones, requerir información complementaria o solicitar ajustes a la propuesta. De resultar procedente, emitirá el acto resolutivo correspondiente, estableciendo las condiciones técnicas de ejecución, protección, mantenimiento, restitución, compensación, supervisión y demás disposiciones establecidas en el Plan de Manejo de Áreas Verdes y Arbolado Urbano aprobado para la otorgación de la conformidad final.</li><li>Las intervenciones temporales en superficie deberán limitarse al área estrictamente indispensable. Culminada la intervención, la superficie deberá mantener o recuperar su condición efectiva de área verde, quedando los componentes permanentes en superficie limitados a los estrictamente necesarios e integrados al diseño paisajístico, sin afectar la cobertura vegetal, el arbolado urbano, la funcionalidad ambiental, la continuidad paisajística ni el uso público del espacio.</li><li>La superficie de área verde afectada deberá ser compensada conforme al artículo 26 de la Ordenanza y en lo indicado en el presente Reglamento.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#2e7048;color:#2e7048">Cap. V: Áreas de Reserva Ambiental</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;42</span><span class="art-name">Alcance y postulación</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El presente procedimiento regula la postulación, evaluación y reconocimiento de áreas verdes de uso y dominio público como Áreas de Reserva Ambiental. La postulación deberá ser presentada por la municipalidad distrital de la jurisdicción o por la entidad administradora de áreas verdes de uso público correspondiente, ante la Gerencia de Servicios a la Ciudad y Gestión Ambiental de la Municipalidad Metropolitana de Lima.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;43</span><span class="art-name">Formulación y contenido mínimo del expediente</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El expediente técnico deberá contener, como mínimo, la memoria descriptiva, delimitación georreferenciada, plano perimétrico, superficie, sustento de su condición de área verde de uso y dominio público, diagnóstico ambiental, registro fotográfico, identificación de la cobertura vegetal y arbolado urbano, compatibilidad con los instrumentos de planificación urbana y propuesta de conservación, restauración, mantenimiento o manejo técnico. Asimismo, deberá acreditar la predominancia del elemento natural y la existencia o potencial recuperación de funciones ambientales o ecosistémicas relevantes para la ciudad.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;44</span><span class="art-name">Evaluación técnica y opinión del Instituto Metropolitano de Planificación</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La Subgerencia de Gestión Ambiental evaluará el expediente técnico verificando el cumplimiento de los criterios para el reconocimiento del área propuesta como Área de Reserva Ambiental. De resultar técnicamente viable, la Gerencia de Servicios a la Ciudad y Gestión Ambiental solicitará opinión técnica favorable al Instituto Metropolitano de Planificación respecto de su compatibilidad con los instrumentos de planificación urbana, zonificación, estructura ecológica urbana y demás criterios metropolitanos aplicables.</li></ul></div>
+</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;45</span><span class="art-name">Reconocimiento mediante Ordenanza Metropolitana</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Con la evaluación técnica favorable de la Subgerencia de Gestión Ambiental y la opinión técnica favorable del Instituto Metropolitano de Planificación, la Gerencia de Servicios a la Ciudad y Gestión Ambiental elevará la propuesta al Concejo Metropolitano de Lima para su reconocimiento mediante Ordenanza Metropolitana. El área reconocida deberá incorporarse al Inventario Metropolitano de Áreas Verdes y Arbolado Urbano, al Sistema Metropolitano de Información Ambiental y a los instrumentos de gestión que correspondan.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#2e7048;color:#2e7048">Cap. VI: Gestión del Recurso Hídrico</div><div class="art-card" style="--ac:#2e7048">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#2e7048">Art.&nbsp;46</span><span class="art-name">De las Fuentes de Agua y la Sostenibilidad Hídrica</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Los administradores de las áreas verdes de uso y dominio público planifican, programan y ejecutan acciones concretas para reducir de manera progresiva el uso de agua potable de la red pública para el riego de áreas verdes públicas de recreación activa o pasiva, debiendo reservarse exclusivamente para aquellos casos donde no exista factibilidad técnica de fuentes alternativas o se ponga en riesgo crítico la supervivencia del arbolado.</li><li>Las Municipalidades Distritales, en el marco de sus competencias, incorporarán progresivamente en sus bases de licitación o contratos de mantenimiento de áreas verdes la obligación de los proveedores de abastecerse de agua proveniente de Plantas de Tratamiento de Aguas Residuales (PTAR) debidamente autorizadas por la autoridad sectorial, u otras fuentes de agua que no sean potables como pozos, acuíferos, canales de riego, etc.</li></ul></div>
+</div></div></div>
+<div class="panel" id="tab-titulo4"><div class="phdr" style="background:linear-gradient(135deg,#38845a18 0%,#eef5f1 100%);border-left:5px solid #38845a">
+  <div class="phdr-tree"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="44" width="4" height="12" fill="#5a3a1a" rx="1"/><polygon points="20,6 7,30 33,30" fill="#2d7a4f"/><polygon points="20,16 9,36 31,36" fill="#245c38" opacity=".85"/><ellipse cx="20" cy="42" rx="8" ry="4" fill="#38845a" opacity=".4"/></svg></div>
+  <div>
+    <div class="phdr-title" style="color:#38845a">TÍTULO IV — Procedimientos sobre Arbolado Urbano</div>
+    <div class="phdr-sub">Arts. 47–61 &nbsp;·&nbsp; <strong>15 artículos</strong></div>
+  </div>
+</div>
+<div class="summary-block" style="border-left:4px solid #38845a">
+  <div class="summary-label" style="color:#38845a">&#128196; Resumen del título</div>
+  <p class="summary-text">Establece el régimen de autorización para todos los tratamientos del arbolado urbano consolidado: tala, poda severa, traslado y atención de emergencias. Define la competencia metropolitana de la SGA-MML, los requisitos del Informe Técnico elaborado por profesional habilitado y los mecanismos de supervisión y compensación ambiental obligatoria.</p>
+  <div class="hl-label" style="color:#38845a">&#9733; Puntos clave</div>
+  <ul class="hl-list"><li>Clasificación: distingue entre especies arbóreas consolidadas (requieren autorización metropolitana) y no consolidadas (competencia distrital).</li><li>Procedimiento general: toda solicitud requiere Informe Técnico de profesional forestal, agrónomo o biólogo habilitado y evaluación previa de la municipalidad distrital.</li><li>Tala: requiere justificación de imposibilidad de conservación, Valoración Técnica del Riesgo (Anexo 11) y compensación ambiental obligatoria.</li><li>Emergencias: la intervención inmediata procede ante riesgo manifiesto, pero debe presentarse el ITGR a la SGA posterior a la ejecución.</li><li>Traslado: exige el cálculo del Índice de Viabilidad de Traslado (IVT) y monitoreo de 6 a 12 meses. Si el árbol muere, se aplica compensación equivalente a tala.</li><li>Poda severa: requiere IT con valorización económica del ejemplar y plan de manejo; si la causal es riesgo, se suma la Valoración Técnica de Riesgo.</li></ul>
+</div>
+<div class="chap"><div class="chap-hd" style="border-left-color:#38845a;color:#38845a">Cap. I: Clasificación del arbolado urbano y determinación de competencia</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;47</span><span class="art-name">Clasificación para efectos de autorización</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Los individuos pertenecientes a especies arbóreas se clasifican, según su estado de desarrollo, arquitectura, grado de establecimiento y consolidación estructural, en:</li><li>a) especies arbóreas, con estructura consolidada; y</li><li>b) especies arbóreas no consolidadas, o con características propias de vegetación de menor escala.</li><li>Esta clasificación tiene finalidad técnica, procedimental y competencial, sin modificar la condición taxonómica de la especie evaluada.</li><li>Se considera una especie arbórea no consolidada a aquella que no ha desarrollado una estructura arbórea definida, pudiendo presentar ausencia de copa consolidada, ramificación primaria no establecida, ramificaciones delgadas, dispersas o reiterativas, desarrollo limitado en altura o diámetro, o comportamiento estructural en transición. Como criterio referencial y complementario, podrán considerarse en esta categoría los individuos con DAP menor o igual a diez centímetros (10 cm) y una altura menor o igual a cuatro metros (4 m), prevaleciendo siempre la evaluación técnica de su grado de consolidación estructural en el entorno urbano.</li><li>En el caso de individuos tipo palmera, comprendidos dentro de la definición de especie arbórea, la determinación de su grado de consolidación estructural se realizará aplicando criterios técnicos análogos a los previstos en el párrafo anterior.</li></ul></div>
+</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;48</span><span class="art-name">Determinación de competencia</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La tala, poda severa o traslado de especies arbóreas requiere autorización metropolitana de la Subgerencia de Gestión Ambiental de Gerencia de Servicios a la Ciudad y Gestión Ambiental Municipalidad Metropolitana de Lima, o la que haga sus veces, siempre y cuando sea sobre especies arbóreos con estructura consolidada.</li><li>Las intervenciones sobre especies arbóreas no consolidadas o vegetación de menor escala serán evaluadas y autorizadas por la municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, sin perjuicio de la aplicación de los criterios técnicos de protección, mantenimiento y sostenibilidad del arbolado urbano.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#38845a;color:#38845a">Cap. II: Procedimiento general para tratamientos arbóreos sujetos a autorización metropolitana</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;49</span><span class="art-name">Alcance y presentación de solicitud</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El presente procedimiento se aplica a las solicitudes de tala, poda severa y traslado de especies arbóreas, con estructura consolidada, emplazadas en las áreas verdes de uso público del ámbito de la provincia de Lima.</li><li>Cuando la solicitud sea promovida por un administrado, empresa prestadora, concesionaria, contratista o tercero interesado, deberá presentarse ante la municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, para su evaluación preliminar.</li><li>Cuando sea promovida por la propia municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, esta remitirá directamente el expediente a la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, o la que haga sus veces.</li><li>Toda solicitud deberá justificar el motivo, finalidad y necesidad técnica del tratamiento, priorizando la conservación de la especie arbórea y las alternativas de manejo de menor afectación; las solicitudes presentadas exponen el cumplimiento de al menos uno de los siguientes supuestos:</li><li>La especie arbórea presenta daños estructurales, mecánicos, sanitarios o fisiológicos que comprometen significativamente su estabilidad, viabilidad o seguridad, y no resulta técnicamente viable aplicar medidas de manejo, mitigación o recuperación que permitan su conservación.</li><li>La especie arbórea presenta enfermedades, pudriciones, defectos estructurales, daños mecánicos por siniestros u otras condiciones que generen un nivel de riesgo no tolerable para personas, bienes o infraestructura, siempre que dicho riesgo no pueda ser reducido mediante tratamientos alternativos.</li><li>La especie arbórea interfiere de manera inevitable con obras de infraestructura o servicios de interés público, siempre que se haya evaluado y descartado técnicamente su conservación en el emplazamiento original, la adecuación del diseño, la poda, el manejo radicular, el traslado u otra alternativa viable.</li><li>Especies arbóreas muertas en pie ubicadas en áreas con presencia, tránsito o permanencia de personas, bienes o infraestructura expuesta.</li><li>Especies arbóreas con riesgo inminente de caída, colapso o falla estructural, debido a afectaciones súbitas, daño mecánico severo, pérdida de anclaje, fractura estructural u otro cambio crítico en su condición.</li><li>Ramas, ejes codominantes u otras estructuras arbóreas con riesgo inminente de desprendimiento, siempre que no resulte viable aplicar oportunamente una medida de manejo de menor afectación.</li><li>La(s) especie(s) arbórea(s) interfiere(n) de manera inevitable con obras de infraestructura o servicios de interés público, siempre que no exista alternativa técnica viable para conservarla(s) en su ubicación original.</li><li>La(s) especie(s) arbórea(s) interfiere(n) con obras privadas, únicamente cuando no exista alternativa técnica o constructiva viable para conservarla(s), debidamente sustentada en la solicitud correspondiente.</li><li>Otros casos análogos</li><li>Para el caso del distrito de Cercado de Lima, es la Subgerencia de Servicios a la Ciudad la encargada de evaluar en primera instancia las solicitudes provenientes de un administrado, empresa prestadora, concesionaria, contratista o tercero interesado.</li></ul></div>
+</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;50</span><span class="art-name">Informe Técnico y evaluación preliminar</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La solicitud deberá incluir un Informe Técnico elaborado y firmado por profesional forestal, profesional forestal, agrónomo o biólogo, con título profesional, colegiatura hábil y acreditación de formación o certificación o diploma o diplomado en arboricultura, adjuntando su currículum vitae documentado.</li><li>El Informe Técnico deberá contener, como mínimo:</li><li>Antecedentes y la justificación de la solicitud, precisando el motivo, finalidad y necesidad técnica del tratamiento arbóreo solicitado, sea tala, poda severa o traslado</li><li>Identificación y caracterización de la especie arbórea, ubicación georreferenciada, registro fotográfico, estado físico, sanitario, fisiológico y estructural</li><li>Análisis general del entorno inmediato, incluyendo  la descripción de las interferencias, riesgos, afectaciones o condiciones que motivan la solicitud</li><li>Sustento de la imposibilidad de conservar el individuo en su emplazamiento original, de aplicar medidas de manejo de menor afectación o de adecuar el diseño, trazo, obra, infraestructura o actividad proyectada para evitar su afectación</li><li>Conclusiones en donde se solicite la autorización para la ejecución del tratamiento arbóreo.</li><li>Plan de Manejo de Áreas Verdes y Arbolado Urbano</li><li>Los requisitos técnicos específicos serán solicitados según el tipo de tratamiento solicitado, conforme a las condiciones específicas establecidas para la tala, poda severa o traslado en los capítulos siguientes del presente Título.</li><li>La municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, verificará la competencia aplicable, la procedencia técnica del tratamiento y la suficiencia del Informe Técnico. De emitir opinión favorable, remitirá el expediente a la Subgerencia de Gestión Ambiental para la evaluación final y posterior opinión técnica favorable.</li><li>El procedimiento administrativo correspondiente para las solicitudes de tratamientos arbóreos se detalla en el Anexo 09 del presente Reglamento. Asimismo, la información esencial de cada especie en solicitud de tratamiento arbóreo debe adjuntarse a la solicitud por medio de la Ficha Técnica de Registro para Solicitud de Tratamientos Arbóreos, detallada en el Anexo 10 del Reglamento</li></ul></div>
+</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;51</span><span class="art-name">Resolución correspondiente a tratamientos arbóreos</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La Subgerencia de Gestión Ambiental es competente para emitir la resolución que declara procedente la solicitud del tratamiento arbóreo solicitado, siempre que se cuente con la opinión técnica favorable del informe técnico remitido por la entidad solicitante. Dicho acto administrativo determinará las responsabilidades correspondientes de la municipalidad distrital o entidad administradora de áreas verdes de dominio y uso público y del administrado.</li><li>Asimismo, las municipalidades distritales ejercen de forma obligatoria la supervisión y fiscalización de todo proceso de tratamiento arbóreo en las áreas verdes de uso público dentro de su jurisdicción. Cuando estas actividades sean ejecutadas por personas naturales o jurídicas de derecho privado, la municipalidad distrital supervisará el cumplimiento de las condiciones ambientales y de seguridad autorizadas. Para el caso específico del distrito del Cercado de Lima, la Subgerencia de Servicios a la Ciudad es la unidad orgánica encargada de realizar las supervisiones del cumplimiento de lo dispuesto en la resolución.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#38845a;color:#38845a">Cap. III: Tala de especies arbóreas</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;52</span><span class="art-name">Procedencia y requisitos para la tala</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La solicitud de tala deberá sustentar, en el Informe Técnico correspondiente, la causal invocada conforme a la Ordenanza, acreditando la imposibilidad de conservar la especie arbórea mediante medidas de manejo, mitigación, recuperación, adecuación del diseño, poda, manejo radicular, traslado u otra alternativa de menor afectación.</li><li>El Informe Técnico deberá incluir, como mínimo;</li><li>Antecedentes y la justificación de la solicitud, precisando el motivo, finalidad y necesidad técnica de la tala.</li><li>Identificación y caracterización de la especie arbórea, ubicación georreferenciada, registro fotográfico, estado físico, sanitario, fisiológico y estructural</li><li>Análisis general del entorno inmediato, incluyendo  la descripción de las interferencias, riesgos, afectaciones o condiciones que motivan la solicitud</li><li>Sustento de la imposibilidad de conservar el individuo en su emplazamiento original, de aplicar medidas de manejo de menor afectación o de adecuar el diseño, trazo, obra, infraestructura o actividad proyectada para evitar su afectación</li><li>La Valoración Técnica del Riesgo de la especie arbórea y su entorno inmediato, aplicando la metodología establecida en el anexo correspondiente.</li><li>Costo histórico de individuos arbóreos en vivero de la misma especie</li><li>Conclusiones en donde se solicite la autorización para la ejecución de la tala.</li><li>Plan de Manejo de Áreas Verdes y Arbolado Urbano</li><li>La Valoración Técnica de Riesgo del arbolado urbano se presenta en el Anexo 11 del presente Reglamento.</li></ul></div>
+</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;53</span><span class="art-name">Ejecución, supervisión y compensación de la tala autorizada</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La tala autorizada deberá ejecutarse conforme a las condiciones establecidas en la Resolución de Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima y su Informe Técnico de sustento, bajo responsabilidad del titular, entidad ejecutora o administradora correspondiente, y con supervisión de la municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, y deberá ser supervisada por parte de la municipalidad distrital o entidad administradora de las áreas verdes de uso público de su jurisdicción.</li><li>La Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, podrá realizar la supervisión in situ a fin de verificar el cumplimiento de las condiciones técnicas de ejecución del tratamiento y el cumplimiento de las medidas establecidas en el Plan de Manejo de Áreas Verdes y Arbolado Urbano aprobado, incluyendo medidas de seguridad, disposición del material vegetal, compensaciones, reposiciones y demás obligaciones establecidas en la autorización otorgada. El incumplimiento de dichas obligaciones será comunicado al órgano fiscalizador competente, conforme al régimen aplicable.</li><li>La tala de especies arbóreas no consolidadas, o vegetación de menor escala será gestionada directamente por la municipalidad distrital o entidad administradora de áreas verdes de uso público competente, sin requerir autorización previa de la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#38845a;color:#38845a">Cap. IV: Tala o poda severa por emergencia o riesgo manifiesto</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;54</span><span class="art-name">Evaluación de riesgo del arbolado urbano</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Las municipalidades distritales y entidades administradoras de espacios públicos deberán realizar evaluaciones de riesgo del arbolado urbano bajo su administración, priorizando los individuos de mayor porte, mayor exposición pública o ubicados en zonas de tránsito, permanencia de personas, bienes, infraestructura o servicios esenciales.</li><li>La evaluación deberá realizarse conforme al Procedimiento de Valoración Técnica del Riesgo del Arbolado Urbano prevista en el Anexo 11 del presente Reglamento, debiendo identificar el nivel de riesgo y las medidas de manejo y mitigación proporcionales que correspondan.</li></ul></div>
+</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;55</span><span class="art-name">Atención de emergencia o riesgo manifiesto</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Cuando se configure una situación de emergencia, riesgo inminente o riesgo manifiesto de la caída de una especie arbórea o alguna de sus partes o concreción de la caída de la misma, la municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, podrá ejecutar la tala, poda severa y retiro sin autorización previa metropolitana, siempre que la intervención sea estrictamente necesaria para controlar, reducir o eliminar la condición peligrosa.</li><li>La intervención deberá limitarse a la medida indispensable para atender el riesgo identificado, priorizando, cuando sea técnicamente viable, la alternativa de menor afectación para la especie arbórea y su entorno.</li></ul></div>
+</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;56</span><span class="art-name">Informe Técnico de Gestión del Riesgo y comunicación posterior</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Cuando la intervención recaiga sobre especies arbóreas, la municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente, deberá remitir a la Subgerencia de Gestión Ambiental, dentro del plazo máximo de cinco (5) días hábiles posteriores a la intervención, el Informe Técnico de Gestión del Riesgo correspondiente.</li><li>El Informe Técnico de Gestión del Riesgo deberá ser elaborado y firmado por un profesional forestal, agrónomo o biólogo, con título profesional, colegiatura hábil y acreditación de formación o certificación en arboricultura y contener, como mínimo, la identificación del individuo, ubicación georreferenciada, registro fotográfico, descripción de la condición de riesgo, acciones ejecutadas, justificación de la intervención realizada y, de corresponder, la compensación ambiental aplicable.</li><li>La intervención por emergencia no exonera del cumplimiento de la compensación ambiental ni de la supervisión técnica posterior. Cuando la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima advierta que la intervención no se encuentra técnicamente sustentada, excede lo necesario o no fue comunicada en el plazo establecido, deberá derivar el informe correspondiente al órgano fiscalizador competente de la Municipalidad Metropolitana de Lima; a fin inicie el procedimiento administrativo sancionador que corresponda.</li><li>El Formato de Informe Técnico de Gestión del Riesgo del arbolado urbano se presenta en el Anexo 12 del presente Reglamento.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#38845a;color:#38845a">Cap. V: Traslado de especies arbóreas</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;57</span><span class="art-name">Requisitos específicos para la solicitud de traslado</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La solicitud de traslado deberá sustentar, en el Informe Técnico correspondiente, la causal invocada conforme a la Ordenanza, acreditando la interferencia de manera inevitable de la especie arbórea con obras de infraestructura o servicios de interés público, siempre que no exista alternativa técnica viable para conservarla en su ubicación original, así como interferencias con obras privadas sin alternativa técnica o constructiva viable para conservarla.</li><li>El Informe Técnico deberá determinar expresamente la factibilidad técnica del traslado, considerando, como mínimo:</li><li>Antecedentes y la justificación de la solicitud, precisando el motivo, finalidad y necesidad técnica del traslado.</li><li>Identificación y caracterización de la especie arbórea, ubicación georreferenciada, registro fotográfico, estado físico, sanitario, fisiológico y estructural</li><li>Análisis general del entorno inmediato, incluyendo  la descripción de las interferencias, riesgos, afectaciones o condiciones que motivan la solicitud</li><li>Sustento de la imposibilidad de conservar el individuo en su emplazamiento original, de aplicar medidas de manejo de menor afectación o de adecuar el diseño, trazo, obra, infraestructura o actividad proyectada para evitar su afectación</li><li>Valorización económica del ejemplar</li><li>Costo histórico de individuos arbóreos en vivero de la misma especie</li><li>Conclusiones en donde se solicite la autorización para la ejecución del traslado.</li><li>Procedimiento de Evaluación Técnica del Traslado, que estima la factibilidad técnica del traslado del arbolado urbano.</li><li>El Procedimiento de Evaluación Técnica del Traslado, el cual emplea el Índice de Viabilidad de Traslado se presenta en el Anexo 13 del presente Reglamento.</li></ul></div>
+</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;58</span><span class="art-name">Ejecución, monitoreo y no prendimiento posterior al traslado</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El traslado autorizado deberá ejecutarse conforme a la Resolución de Subgerencia, Informe técnico que la sustenta y al Plan de Manejo de Áreas Verdes y Arbolado Urbano aprobado, bajo supervisión de la municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente. La municipalidad distrital o entidad administradora de áreas verdes de uso público correspondiente deberá enviar un informe técnico sobre la supervisión posterior al traslado en un plazo máximo de treinta (30) días calendario luego de la ejecución del tratamiento mencionado.</li><li>Asimismo, dentro del periodo de seis (06) meses o doce (12) meses, según lo que determine la municipalidad distrital de acuerdo a la evaluación técnica de la especie arbórea trasladada, la entidad distrital deberá ejecutar la inspección correspondiente del ejemplar trasladado, a fin de verificar el prendimiento, estabilidad, condición sanitaria y respuesta fisiológica del individuo trasladado.</li><li>En caso que el individuo trasladado perezca durante el periodo de monitoreo establecido, se considerará como un traslado que ocasiona la muerte de la especie arbórea, aplicándose la compensación ambiental correspondiente.</li><li>El traslado de especies arbóreas no consolidadas o vegetación de menor escala será gestionado directamente por la municipalidad distrital o entidad administradora de áreas verdes de uso público competente, sin requerir autorización previa de la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima.</li></ul></div>
+</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;59</span><span class="art-name">Gestión de riesgos del ejemplar arbóreo trasladado</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Las municipalidades distritales, a través de sus órganos competentes, están obligadas a realizar el seguimiento y la evaluación del nivel de riesgo del arbolado urbano reubicado en un nuevo emplazamiento. Esta supervisión técnica deberá enfocarse en mitigar la vulnerabilidad generada por la pérdida radicular severa derivada del proceso de trasplante, y se mantendrá de forma permanente durante todo el periodo crítico de establecimiento y adaptación del espécimen.</li><li>Ante la identificación de cualquier nivel de riesgo en los ejemplares trasladados, la municipalidad distrital correspondiente implementará, de manera inmediata y obligatoria, las medidas de mitigación que resulten pertinentes. Estas acciones incluirán, según el diagnóstico de campo, el apuntalamiento estructural, la instalación de sistemas de anclaje, la ejecución de podas de formación y la aplicación de tratamientos fitosanitarios o bioestimulantes a nivel radicular.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#38845a;color:#38845a">Cap. VI: Poda severa</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;60</span><span class="art-name">Procedencia y requisitos para la poda severa</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La solicitud de poda severa deberá sustentar, en el Informe Técnico correspondiente, la causal invocada conforme a la Ordenanza, acreditando que no existe una alternativa de menor afectación, como poda ordinaria, poda de limpieza, poda de formación, reducción menor, manejo estructural, adecuación de infraestructura o distanciamiento de redes.</li><li>El Informe Técnico deberá precisar:</li><li>Antecedentes y la justificación de la solicitud, precisando el motivo, finalidad y necesidad técnica de la poda severa.</li><li>Identificación y caracterización de la especie arbórea, ubicación georreferenciada, registro fotográfico, estado físico, sanitario, fisiológico y estructural</li><li>Análisis general del entorno inmediato, incluyendo  la descripción de las interferencias, riesgos, afectaciones o condiciones que motivan la solicitud</li><li>Sustento de la imposibilidad de conservar el individuo en su emplazamiento original, de aplicar medidas de manejo de menor afectación o de adecuar el diseño, trazo, obra, infraestructura o actividad proyectada para evitar su afectación</li><li>Valorización económica del ejemplar</li><li>Costo histórico de individuos arbóreos en vivero de la misma especie</li><li>Conclusiones en donde se solicite la autorización para la ejecución de la tala.</li><li>Plan de Manejo del Arbolado Urbano</li><li>Cuando la causal esté vinculada a riesgo, deberá incluir la valoración técnica del riesgo de la especie arbórea y su entorno inmediato, aplicando la metodología establecida en el Anexo 11 del presente reglamento. En caso de interferencia con redes de servicios públicos, deberá sustentarse la criticidad de la interferencia y la imposibilidad de aplicar medidas alternativas.</li></ul></div>
+</div><div class="art-card" style="--ac:#38845a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#38845a">Art.&nbsp;61</span><span class="art-name">Ejecución, manejo posterior y supervisión de la poda severa autorizada</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La poda severa autorizada deberá ejecutarse conforme a las condiciones establecidas en la Resolución de Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima y su Informe Técnico de sustento, bajo responsabilidad del titular, entidad ejecutora o administradora correspondiente, y con supervisión de la municipalidad distrital o entidad administradora de las áreas verdes de uso público de su jurisdicción.</li><li>La Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, podrá realizar la supervisión in situ a fin de verificar el cumplimiento de la envergadura de la ejecución autorizada, las condiciones técnicas de corte, las medidas de seguridad, el manejo del material vegetal, el mantenimiento posterior, el monitoreo del individuo intervenido y, cuando corresponda, las medidas de compensación o mitigación dispuestas. El incumplimiento será comunicado al órgano fiscalizador competente, conforme al régimen aplicable.</li><li>La poda severa de especies arbóreas no consolidadas o vegetación de menor escala será gestionada directamente por la municipalidad distrital o entidad administradora de las áreas verdes de uso público competente, sin requerir autorización previa de la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima.</li></ul></div>
+</div></div></div>
+<div class="panel" id="tab-titulo5"><div class="phdr" style="background:linear-gradient(135deg,#3d7a5518 0%,#eef5f1 100%);border-left:5px solid #3d7a55">
+  <div class="phdr-tree"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="42" width="4" height="12" fill="#5a3a1a" rx="1"/><polygon points="20,4 6,28 34,28" fill="#2d7a4f" opacity=".9"/><polygon points="20,12 8,34 32,34" fill="#245c38"/><polygon points="20,20 10,42 30,42" fill="#1a3d2b"/></svg></div>
+  <div>
+    <div class="phdr-title" style="color:#3d7a55">TÍTULO V — Manejo de Plantones de Vivero para Arbolado Urbano</div>
+    <div class="phdr-sub">Arts. 62–69 &nbsp;·&nbsp; <strong>8 artículos</strong></div>
+  </div>
+</div>
+<div class="summary-block" style="border-left:4px solid #3d7a55">
+  <div class="summary-label" style="color:#3d7a55">&#128196; Resumen del título</div>
+  <p class="summary-text">Fija los estándares mínimos de sanidad y calidad que deben cumplir los plantones de vivero antes de ser utilizados en el arbolado urbano de Lima. Establece criterios técnicos sobre copa, altura, codominancia, cortes de poda, sistemas radiculares, cepellón y dimensiones mínimas para garantizar el prendimiento y desarrollo exitoso del árbol plantado.</p>
+  <div class="hl-label" style="color:#3d7a55">&#9733; Puntos clave</div>
+  <ul class="hl-list"><li>Todo plantón debe estar libre de plagas, presentar copa óptima con follaje en al menos dos tercios de la altura y superar 2.5 m de altura.</li><li>Codominancia: se prohíben los tallos codominantes (horquillas en &quot;U&quot;) que comprometan la estructura del árbol a largo plazo.</li><li>Los cortes de poda en vivero deben ser limpios, sin desgarros, y realizados con herramienta adecuada.</li><li>Sistemas radiculares en contenedor: deben estar bien establecidos, sin raíces en espiral ni circundantes.</li><li>Diámetro del cepellón: mínimo 10 a 12 veces el DAP del árbol, con requisitos específicos para coníferas y palmeras.</li><li>Profundidad del cepellón: varía según el diámetro; para cepellones menores a 50 cm, la profundidad no será menor al 65% del diámetro.</li></ul>
+</div>
+<div class="chap"><div class="chap-hd" style="border-left-color:#3d7a55;color:#3d7a55">Cap. I: Calidad General y Sanidad de Plantones de Vivero</div><div class="art-card" style="--ac:#3d7a55">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d7a55">Art.&nbsp;62</span><span class="art-name">Requisito de Sanidad y Calidad Mínima</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Todo plantón de vivero que sea seleccionado para su plantación en las áreas verdes de uso público debe cumplir estrictamente con las siguientes condiciones mínimas de calidad no limitantes al cumplimiento de otras que conlleven a un mejor proceso de aclimatación de la especie arbórea:</li><li>a) Estar sustancialmente libre de plagas y enfermedades que puedan causar daños o comprometer su desarrollo.</li><li>b) Presentar una buena condición física, sin signos de etiolación ni estrés hídrico.</li><li>c) Presentar una copa en estado óptimo, cuyas ramas y follaje ocupen al menos las dos terceras partes de la altura total del árbol.</li><li>Tener una altura superior a los dos metros y medio, con el fin de incrementar las probabilidades de supervivencia en el entorno urbano.</li></ul></div>
+</div><div class="art-card" style="--ac:#3d7a55">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d7a55">Art.&nbsp;63</span><span class="art-name">Tratamiento de Defectos Críticos por Codominancia</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Se debe evitar la presencia de tallos codominantes (horquillas con uniones débiles en &quot;U&quot; o &quot;V&quot;) dentro de la mitad inferior del fuste del árbol. Esta condición se considerará un defecto crítico que predispone al ejemplar a sufrir fallas estructurales a futuro.</li></ul></div>
+</div><div class="art-card" style="--ac:#3d7a55">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d7a55">Art.&nbsp;64</span><span class="art-name">Calidad de los Cortes de Poda</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Todos los cortes de poda realizados en el vivero para corregir heridas, daños o fallas en la estructura de ramificación deben ser limpios, sin dejar tocones ni desgarros en la corteza, resguardando así la sanidad del ejemplar y respetando el hábito de crecimiento natural de la especie, la formación del ejemplar debe realizarse en vivero con el fin de evitar podas precoces en campo. Asimismo, durante las primeras etapas de desarrollo del plantón, se debe promover el ahusamiento del fuste mediante la conservación de los brotes situados en la base del tronco.</li></ul></div>
+</div><div class="art-card" style="--ac:#3d7a55">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d7a55">Art.&nbsp;65</span><span class="art-name">Requisito General para Sistemas Radiculares en Contenedor</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Todo plantón en contenedor o bolsa deberá poseer un sistema radicular bien establecido que alcance los lados del recipiente, garantizando la cohesión y firmeza del cepellón al extraerse. Se debe rechazar el material que presente un crecimiento excesivo de raíces circulares o espiraladas (raíces estrangulantes) en el interior del contenedor. En caso las especies arbóreas que hayan sido cultivadas en el suelo, no pueden ser plantados en el campo apenas se hayan sido extraídos del suelo, debe pasar un tiempo en un contenedor o bolsa para que se generen raíces de absorción.</li></ul></div>
+</div><div class="art-card" style="--ac:#3d7a55">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d7a55">Art.&nbsp;66</span><span class="art-name">Centrado del Árbol en el Cepellón</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El eje central del tronco o tallo principal de la especie arbórea debe ubicarse en el centro geométrico del cepellón, con una tolerancia máxima de desviación equivalente al 10% del diámetro total del cepellón.</li></ul></div>
+</div><div class="art-card" style="--ac:#3d7a55">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d7a55">Art.&nbsp;67</span><span class="art-name">Medición Real de la Profundidad del Cepellón</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La profundidad del cepellón se medirá exclusivamente a partir de la zona real del cuello de la raíz hacia la base. Cualquier acumulación de tierra suelta o sustrato colocado por encima del cuello de la raíz y deberá ser removida antes de la plantación del ejemplar.</li></ul></div>
+</div><div class="art-card" style="--ac:#3d7a55">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d7a55">Art.&nbsp;68</span><span class="art-name">Diámetro mínimo del cepellón</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Para un adecuado desarrollo de las raíces, se considera un diámetro mínimo del cepellón según la altura de medición del fuste del plantón (calibre). Durante las etapas iniciales del desarrollo del plantón, el calibre se determina según el punto de medición del fuste, el cual se establece a 15 centímetros del suelo; si el calibre resulta ser de 11.4 centímetros o más, se mide a 30 centímetros de altura. Una vez el plantón haya superado el metro y medio de altura, el calibre pasa a ser el diámetro de altura del pecho DAP.</li><li>En base a ello el diámetro del cepellón debe ser, como mínimo de 10 a 12 veces el diámetro medido en el fuste según el calibre correspondiente.</li><li>En caso de especies coníferas, el diámetro mínimo del cepellón se basa según la altura del árbol, para ejemplares mayores a 1.2 metros de altura, el diámetro del cepellón no debe ser menor al 40% de la altura total de la especie arbórea, en caso de plantones de menor altura el diámetro del cepellón debe ser, como mínimo, la mitad de su altura.</li><li>Para especies arbóreas tipo palmera, el diámetro del cepellón debe ser, como mínimo, el triple del diámetro de la base del tronco, para plantones menores a 15 centímetros, el diámetro del cepellón no debe ser menor a 45 centímetros.</li></ul></div>
+</div><div class="art-card" style="--ac:#3d7a55">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d7a55">Art.&nbsp;69</span><span class="art-name">Profundidad Mínima del Cepellón</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Para asegurar un volumen de raíces alimenticias suficiente para el desarrollo de la especie arbórea, las dimensiones del cepellón mantendrán de forma general las siguientes relaciones respecto a su diámetro:</li><li>Cepellones con diámetros menores a 50 centímetros: La profundidad vertical total no será menor al 65% del diámetro del cepellón.</li><li>Cepellones con diámetros de 50 centímetros o superiores: La profundidad vertical total no será menor al 60% del diámetro del cepellón.</li><li>En caso de especies arbóreas tipo palmera, la profundidad del cepellón no puede ser menor a los 60 centímetros de profundidad.</li></ul></div>
+</div></div></div>
+<div class="panel" id="tab-titulo6"><div class="phdr" style="background:linear-gradient(135deg,#4a7c8a18 0%,#eef5f1 100%);border-left:5px solid #4a7c8a">
+  <div class="phdr-tree"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="38" width="4" height="16" fill="#5a3a1a" rx="1"/><ellipse cx="20" cy="26" rx="15" ry="13" fill="#245c38" opacity=".9"/><ellipse cx="15" cy="22" rx="10" ry="9" fill="#2d7a4f" opacity=".7"/><ellipse cx="25" cy="24" rx="9" ry="8" fill="#38845a" opacity=".6"/></svg></div>
+  <div>
+    <div class="phdr-title" style="color:#4a7c8a">TÍTULO VI — Consideraciones para la Plantación de Especies Arbóreas</div>
+    <div class="phdr-sub">Arts. 70–83 &nbsp;·&nbsp; <strong>14 artículos</strong></div>
+  </div>
+</div>
+<div class="summary-block" style="border-left:4px solid #4a7c8a">
+  <div class="summary-label" style="color:#4a7c8a">&#128196; Resumen del título</div>
+  <p class="summary-text">Regula el proceso técnico completo de plantación de árboles urbanos: desde la evaluación del sitio hasta la ejecución y verificación del establecimiento. Define los criterios para elegir la especie adecuada según las condiciones del lugar, los requisitos de hoyadura, tutorado y monitoreo post-plantación para asegurar la supervivencia del arbolado.</p>
+  <div class="hl-label" style="color:#4a7c8a">&#9733; Puntos clave</div>
+  <ul class="hl-list"><li>Evaluación del lugar: análisis de suelo, volumen de espacio radicular, disponibilidad hídrica, área de plateo e interferencias aéreas y subterráneas.</li><li>Elección de especie: el tamaño en estado adulto debe ser compatible con el espacio disponible; se promueve la diversidad de especies.</li><li>Época de plantación: se recomienda evitar temperaturas extremas; la plantación en Lima se programa preferentemente en épocas frescas.</li><li>Hoyadura: el volumen del hoyo varía según el tamaño del árbol adulto; para especies mayores a 12 m se requieren hoyos de mayor dimensión.</li><li>Tutorado: sistema de soporte obligatorio durante el período de establecimiento del árbol plantado.</li><li>Evaluación post-plantación: seguimiento del establecimiento por la municipalidad distrital durante el período de prendimiento.</li></ul>
+</div>
+<div class="chap"><div class="chap-hd" style="border-left-color:#4a7c8a;color:#4a7c8a">Cap. I: Evaluación del lugar de plantación</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;70</span><span class="art-name">Finalidad De La Evaluación Del Lugar De Plantación</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Previo a la plantación de una especie arbórea determinada, es indispensable realizar la evaluación del lugar de emplazamiento proyectado. La municipalidad distrital o la entidad administradora del área verde de uso público correspondiente debe determinar, en base a los resultados de la evaluación, la factibilidad de la plantación de una especie arbórea en dicho espacio, así como la elección de la misma.</li><li>Esta evaluación técnica debe considerar, como mínimo más no limitante:</li><li>Análisis preliminar del suelo, incluyendo la estimación de la presencia o ausencia de contaminantes, las interferencias naturales o antrópicas, el volumen de suelo útil.</li><li>Disponibilidad de fuentes hídricas para el riego.</li><li>Interferencias que podrían afectar a la especie tanto en el momento de plantación, así como en su estadio adulto.</li><li>Dichos criterios se profundizarán en los artículos siguientes.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;71</span><span class="art-name">Análisis preliminar del suelo</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Previo a la plantación, se debe realizar una evaluación de las características físico-químicas del suelo para identificar posibles problemas de salinidad o sodicidad, además de determinar su textura, estructura, pH y contenido de materia orgánica. Asimismo, se estimarán los niveles de compactación, contaminantes e interferencias antrópicas en el sitio. De igual manera, se revisará el historial de la zona para identificar los usos anteriores del terreno, tales como la presencia de residuos de construcción, rellenos sanitarios u otras alteraciones preexistentes.</li><li>En caso de proyectarse la plantación de un volumen considerable de ejemplares, el análisis podrá efectuarse mediante un muestreo representativo, siempre y cuando los lugares de emplazamiento propuestos presenten características similares.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;72</span><span class="art-name">Volumen de espacio radicular</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Hace referencia al volumen de suelo natural disponible para el desarrollo de las raíces, un factor esencial para el crecimiento adecuado de los árboles. Este espacio debe mantenerse libre de impurezas, como escombros o residuos sólidos, y asegurarse de que no haya infraestructuras que interfieran con el desarrollo radicular.</li><li>La cantidad de suelo necesaria para cada árbol varía según el tamaño final de su copa; para calcular este volumen, se recomienda asignar 0.6 m3 de suelo por cada 1 m2 de copa.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;73</span><span class="art-name">Disponibilidad hídrica</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La municipalidad distrital o la entidad administradora de uso público correspondiente debe identificar las fuentes de agua disponibles para la especie arbórea proyectada, priorizado fuentes alternativas de agua distintas a la potable, así como analizar su capacidad de abasto de la institución. No se puede ejecutar una arborización en caso no exista un compromiso perenne para el riego de las especies arbóreas instaladas. De acuerdo a la disponibilidad hídrica estimada, se debe elegir las especies aptas para la plantación.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;74</span><span class="art-name">Área de plateo</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Se entiende por área de plateo la superficie de terreno sin pavimentar que se deja al pie de los árboles o plantas en general en áreas verdes de uso público, con la finalidad de recoger el agua e infiltrarla al terreno. Su dimensión debe permitir el desarrollo del tronco del árbol en su edad adulta. Es esencial garantizar que la superficie permanezca permeable y que ofrezca espacio suficiente para el crecimiento del tronco de acuerdo con el tamaño final del árbol</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;75</span><span class="art-name">Interferencias</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Durante la evaluación del terreno se debe identificar las interferencias presentes, tanto aéreas como en los laterales, estas incluyen, cableado, postes, señales de tránsito, paso peatonal y vehicular, instalaciones o edificaciones presentes, así mismo se debe considerar el distanciamiento respecto a ellas, así como el distanciamiento respecto a otras especies arbóreas y arbustivas.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#4a7c8a;color:#4a7c8a">Cap. II: Elección de especie para plantación</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;76</span><span class="art-name">Tamaño de especie</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>En este criterio se considera el tamaño estimado del ejemplar arbóreo en estado adulto, la finalidad de contar con esta estimación es para determinar y prevenir la afectación del ejemplar a causa de posibles interferencias a nivel del suelo y aéreas.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;77</span><span class="art-name">Características de la especie</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>En base a las evaluaciones realizadas en el Capítulo I del presente título, se debe determinar las especies cuyas características físicas y fisiológicas permitan el adecuado establecimiento y permanencia y adecuado desarrollo de la especie arbórea en el tiempo, priorizando la elección de especies costeras que se encuentran adaptadas a las condiciones climáticas de Lima Metropolitana.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;78</span><span class="art-name">Promoción de la diversidad del arbolado urbano</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La diversidad de especies arbóreas permite el incremento de los benéficos ecosistémicos y la prevención de propagación de plagas y fitopatógenos, Por ello, se debe promover la plantación de ejemplares bajo la regla del 10-20-30, seleccionando especies que no  superen el 10% o el género el 20% o la familia el 30% del total registrado en los Inventarios Distritales de Áreas Verdes y Arbolado Urbano, esto siempre y cuando las características de las especies pertenecientes a dichos rangos sean compatibles con los resultados obtenidos en los análisis de los artículos anteriores.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#4a7c8a;color:#4a7c8a">Cap. III: Ejecución del procedimiento de plantación</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;79</span><span class="art-name">Época de plantación</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Se recomienda evitar la plantación cuando se presentan temperaturas muy altas, principalmente en los meses de verano o cuando se presentan fenómenos climáticos que suponen un ascenso atípico de la temperatura, con el fin de prevenir un mayor estrés durante el proceso de aclimatación de la especie arbórea en su nuevo lugar de emplazamiento.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;80</span><span class="art-name">Hoyadura de plantación</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La hoyadura de plantación se refiere al espacio asignado para la plantación de la especie arbórea, esta debe tener un ancho de tres veces el diámetro del cepellón y una profundidad ligeramente mayor a la altura del cepellón.</li><li>En caso de realizarse la plantación en suelos en áreas verdes complementarias, se debe preparar una hoyadura de, al menos 1 m3, asegurándose de que sea lo suficientemente amplia y profunda para permitir una inserción holgada del pan de raíces, y proporcionando espacio adicional para su desarrollo futuro, las dimensiones de la hoyadura para estos casos varían según el tamaño de la especie arbórea, presentándose tres supuestos:</li><li>Las especies arbóreas cuyo tamaño en estadio adulto sean menores a 8 metros de altura, requieren una jardinera con un ancho mínimo de un metro y una dimensión mínima de jardinera de 1 m3.</li><li>Las especies arbóreas cuyo tamaño en estadio adulto sean entre 8 y 12 metros de altura, requieren una jardinera con un ancho mínimo de 1.4 metros y una dimensión mínima de jardinera de 2 m3.</li><li>Las especies arbóreas cuyo tamaño en estadio adulto sean superiores a los 12 metros de altura, requieren una jardinera con un ancho mínimo de 1.8 metros y una dimensión mínima de jardinera de 3.2 m3.</li><li>Se precisa que el volumen del hoyo de plantación no es el volumen útil que requiere el árbol a futuro, para ello se debe tomar en cuenta la proporción mencionada en el Artículo 72 del Reglamento.</li><li>Posteriormente, se debe realizar una limpieza profunda del suelo para eliminar escombros, piedras o restos de construcción que puedan interferir con el crecimiento radicular. La tierra extraída (tierra madre) se debe acopiar junto al hoyo para su posterior uso durante la plantación. Finalmente, según los resultados del análisis o evaluación previa del suelo, se procederá con la aplicación de compost o el tratamiento enmendador correspondiente.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;81</span><span class="art-name">Tutorado</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Este se define como el sistema de soporte para la especie arbórea instalada durante el proceso de formación del arraigamiento al terreno de las raíces, así mismo garantiza el desarrollo vertical de la especie arbórea. El tutorado puede estar formado por uno o más tutores que deben contar con la suficiente resistencia para soportar el peso de la especie arbórea a medida que avanza su proceso de maduración. El tutorado debe ir complementado con un sistema de amarres, el cual debe asegurarse que sostenga a la especie arbórea, sin embargo, no debe implicar la inclinación, torcedura o posterior ahorcamiento del fuste, la especie arbórea debe tener la facultad de poder moverse levemente por el viento. Se debe verificar que el tutor no permanezca por un periodo superior a dos (2) años.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;82</span><span class="art-name">Proceso de plantación de especies arbóreas</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Durante el proceso de plantación se debe evitar enterrar el cuello del árbol, para ello se debe rellenar la excavación previamente realizada en el proceso de hoyadura conforme a la profundidad del pan de tierra de la especie arbórea a ser plantada. No se debe colocar piedras de gran tamaño u otros materiales compactantes a la parte inferior de la hoyadura, debido a que esto obstaculiza el desarrollo radicular. Asimismo, en caso de encontrarse raíces espiraladas, estas deben cortarse.</li><li>La especie arbórea plantada debe colocarse en el centro de la hoyadura realizada y el tutor debe colocarse sin dañar el cepellón. Posterior a ello la hoyadura debe ser llenada sin cubrir el cuello del árbol y regar inmediatamente.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a7c8a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a7c8a">Art.&nbsp;83</span><span class="art-name">Evaluación del establecimiento de las especies arbóreas plantadas</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La municipalidad distrital o la entidad administradora del área verde de uso público correspondiente, debe supervisar el establecimiento de las especies arbóreas a doce (12) meses de su plantación, dicha evaluación debe considerar el estado físico y fitosanitario del ejemplar, haciendo mención de la incidencia y severidad de las plagas y enfermedades encontradas, así como el nivel de estabilidad del árbol sin el sistema de tutorado, en caso  se compruebe que el ejemplar está establecido, se debe quitar el tutor, la afectación por vandalismo o contaminantes. Del mismo modo, la supervivencia del ejemplar debe comprobase al determinar si se presenta actividad fisiológica en el ejemplar.</li><li>La municipalidad distrital o la entidad administradora del área verde de uso público correspondiente deberá remitir anualmente el consolidado de los resultados de la evaluación de la supervivencia de cada mes del año a la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, hasta el último día hábil del mes de marzo del año presente, por medio del reporte de avance de ejecución de su PDAV correspondiente al año anterior, conforme al formato aprobado. Se debe tener un porcentaje de supervivencia no menor al 80%, en caso sea menor se debe realizar el recalce respectivo.</li></ul></div>
+</div></div></div>
+<div class="panel" id="tab-titulo7"><div class="phdr" style="background:linear-gradient(135deg,#5a8a7a18 0%,#eef5f1 100%);border-left:5px solid #5a8a7a">
+  <div class="phdr-tree"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="46" width="4" height="10" fill="#5a3a1a" rx="1"/><ellipse cx="20" cy="28" rx="8" ry="22" fill="#1a3d2b" opacity=".9"/><ellipse cx="18" cy="24" rx="5" ry="16" fill="#2d7a4f" opacity=".7"/></svg></div>
+  <div>
+    <div class="phdr-title" style="color:#5a8a7a">TÍTULO VII — Compensación, Supervisión y Cumplimiento</div>
+    <div class="phdr-sub">Arts. 84–86 &nbsp;·&nbsp; <strong>3 artículos</strong></div>
+  </div>
+</div>
+<div class="summary-block" style="border-left:4px solid #5a8a7a">
+  <div class="summary-label" style="color:#5a8a7a">&#128196; Resumen del título</div>
+  <p class="summary-text">Establece el sistema de compensación ambiental que opera cuando la afectación del arbolado urbano o de las áreas verdes no puede evitarse. Define los dos ámbitos de compensación (arbolado urbano y superficie de área verde), el procedimiento de cálculo, la ejecución de la compensación y los mecanismos de supervisión y conformidad por parte de la SGA-MML.</p>
+  <div class="hl-label" style="color:#5a8a7a">&#9733; Puntos clave</div>
+  <ul class="hl-list"><li>La compensación procede cuando se agotan las medidas de prevención, mitigación y recuperación ambiental.</li><li>Dos ámbitos: (a) compensación por afectación del arbolado urbano mediante reposición de individuos arbóreos; y (b) compensación por pérdida de superficie de área verde.</li><li>El cálculo de la compensación del arbolado se realiza conforme al procedimiento aprobado por la SGA-MML y se establece expresamente en el acto resolutivo.</li><li>La ejecución de la compensación es condición para la conformidad final del procedimiento autorizado.</li><li>La SGA-MML supervisa el cumplimiento de la compensación y puede observar las acciones realizadas.</li></ul>
+</div>
+<div class="chap"><div class="chap-hd" style="border-left-color:#5a8a7a;color:#5a8a7a">Cap. I: Compensación ambiental</div><div class="art-card" style="--ac:#5a8a7a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#5a8a7a">Art.&nbsp;84</span><span class="art-name">Ámbitos y modalidades de compensación ambiental</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La compensación ambiental procede cuando, pese a la aplicación de medidas de prevención, mitigación, corrección, recuperación o restitución, persistan impactos residuales sobre áreas verdes de uso público, arbolado urbano o sus componentes, debiendo orientarse a generar beneficios ambientales equivalentes o proporcionales a la afectación ocasionada.</li><li>La compensación ambiental comprende dos ámbitos:</li><li>a) compensación por afectación del arbolado urbano; y</li><li>b) compensación por pérdida, reducción o afectación de superficie destinada o con aptitud para albergar áreas verdes.</li><li>La compensación por afectación del arbolado urbano podrá efectuarse mediante la reposición o reemplazo de especies arbóreas, tomando como base la valorización económica de la especie arbórea perdida, dañada o afectada, conforme a los artículos 17 y 18 del presente Reglamento, asegurando una calidad y porte conforme con lo indicado en el del presente Reglamento. La Municipalidad Distrital determinará y verificará la ejecución y cumplimiento de la compensación ambiental correspondiente.</li><li>La compensación por pérdida, reducción o afectación de superficie destinada o con aptitud para albergar áreas verdes podrá efectuarse mediante la restitución del espacio físico afectado, la habilitación de un nuevo espacio físico equivalente y proporcional.</li></ul></div>
+</div><div class="art-card" style="--ac:#5a8a7a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#5a8a7a">Art.&nbsp;85</span><span class="art-name">Determinación y cálculo de la compensación ambiental del arbolado urbano</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La compensación ambiental derivada de los procedimientos autorizados por la Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima se materializará mediante la reposición de individuos arbóreos. La cantidad de individuos arbóreos a compensar será determinada sobre la base de la valorización económica del ejemplar o ejemplares afectados, calculada conforme a la metodología vigente aplicable. Una vez determinada la valorización económica del ejemplar a compensar, se divide el resultado entre el costo histórico de requerimiento de un ejemplar arbóreo por parte de la municipalidad distrital o entidad administradora, obteniendo como resultado la cantidad de individuos arbóreos a compensar.</li><li>La cantidad de individuos arbóreos resultante deberá consignarse expresamente en la resolución autoritativa emitida por la Subgerencia de Gestión Ambiental como condición u obligación exigible, conforme a la evaluación técnica ambiental realizada y a la información proporcionada por la municipalidad distrital o entidad administradora de las áreas verdes y arbolado urbano de uso público.</li><li>El Procedimiento para la Determinación de Compensación mediante Reposición del Arbolado Urbano se presenta en el Anexo 14 del presente Reglamento.</li></ul></div>
+</div><div class="art-card" style="--ac:#5a8a7a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#5a8a7a">Art.&nbsp;86</span><span class="art-name">Ejecución, conformidad y supervisión de la compensación</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La compensación ambiental deberá ejecutarse dentro del plazo, condiciones y forma establecidos en la resolución o informe técnico correspondiente. La Municipalidad Distrital o Entidad Administradora deberá supervisar el cumplimiento de su ejecución por parte el responsable de corresponder, adjuntando los medios de verificación respectivos. Así como, de la ejecución de la compensación y emitirá la conformidad correspondiente.</li><li>La Subgerencia de Gestión Ambiental de la Municipalidad Metropolitana de Lima, podrá realizar la supervisión correspondiente de forma inopinada y en caso advierta incumplimiento total o parcial, ejecución distinta a la aprobada, falta de mantenimiento, pérdida de individuos repuestos o ausencia de restitución, emitirá el informe técnico correspondiente y lo derivará al órgano fiscalizador competente de la Municipalidad Metropolitana de Lima.</li></ul></div>
+</div></div></div>
+<div class="panel" id="tab-titulo8"><div class="phdr" style="background:linear-gradient(135deg,#4a6b7a18 0%,#eef5f1 100%);border-left:5px solid #4a6b7a">
+  <div class="phdr-tree"><svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="40" width="4" height="14" fill="#5a3a1a" rx="1"/><ellipse cx="28" cy="26" rx="22" ry="16" fill="#245c38" opacity=".85"/><ellipse cx="18" cy="20" rx="13" ry="10" fill="#2d7a4f" opacity=".7"/><ellipse cx="36" cy="22" rx="12" ry="10" fill="#38845a" opacity=".6"/><ellipse cx="28" cy="16" rx="10" ry="8" fill="#3d9460" opacity=".5"/></svg></div>
+  <div>
+    <div class="phdr-title" style="color:#4a6b7a">TÍTULO VIII — Participación Privada y Anuncios en Áreas Verdes</div>
+    <div class="phdr-sub">Arts. 87–92 &nbsp;·&nbsp; <strong>6 artículos</strong></div>
+  </div>
+</div>
+<div class="summary-block" style="border-left:4px solid #4a6b7a">
+  <div class="summary-label" style="color:#4a6b7a">&#128196; Resumen del título</div>
+  <p class="summary-text">Regula la participación de operadores privados en áreas verdes de administración especial, el destino de los recursos generados por esa participación y los criterios técnicos para la instalación de anuncios publicitarios en áreas verdes. Toda participación privada requiere opinión técnica de la SGA-MML, concurso público conforme a la Ley N° 31199 y comunicación obligatoria a la CGR y SBN.</p>
+  <div class="hl-label" style="color:#4a6b7a">&#9733; Puntos clave</div>
+  <ul class="hl-list"><li>Alcance: regula propuestas de operadores privados para prestar servicios accesorios en áreas verdes, como quioscos, cafeterías o servicios deportivos.</li><li>Requisito: la propuesta debe demostrar interés colectivo, compatibilidad con el área verde y plan de riego sostenible.</li><li>La superficie con exclusividad de uso no puede superar el 15% del área verde total.</li><li>Los recursos generados (cánon, regalías) deben destinarse al mantenimiento y mejora del área verde intervenida con trazabilidad documentada.</li><li>Anuncios y avisos: los elementos publicitarios en áreas verdes deben ser compatibles con el entorno y no afectar la cobertura vegetal ni el arbolado.</li></ul>
+</div>
+<div class="chap"><div class="chap-hd" style="border-left-color:#4a6b7a;color:#4a6b7a">Cap. I: Participación privada en áreas verdes de administración especial</div><div class="art-card" style="--ac:#4a6b7a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a6b7a">Art.&nbsp;87</span><span class="art-name">Alcance y evaluación de la participación privada</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El presente procedimiento regula la evaluación técnica de las propuestas de participación privada en áreas verdes de administración especial, únicamente en lo referido a la conservación del área verde, el arbolado urbano, la funcionalidad ambiental, el paisaje, el uso público y el cumplimiento de los límites de ocupación previstos en la presente Ordenanza, y la viabilidad preliminar del modelo de retribución económica orientado a la sostenibilidad del área verde.</li><li>La opinión técnica favorable que se otorgue se limita a dichos aspectos, sin perjuicio de las evaluaciones y pronunciamientos que correspondan a las demás unidades orgánicas y entidades competentes, conforme a sus funciones y atribuciones.</li><li>Dicha evaluación no sustituye los procedimientos, requisitos, concursos públicos, permiso, subastas, licencias, autorizaciones o títulos habilitantes exigidos por la Ley N° 31199, su Reglamento y demás normativa aplicable.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a6b7a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a6b7a">Art.&nbsp;88</span><span class="art-name">Contenido mínimo del expediente</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Para efectos de la evaluación técnica regulada en el presente Reglamento, y sin perjuicio de la documentación adicional que pueda ser requerida por otras unidades orgánicas en el marco de sus respectivas competencias, el expediente deberá contener, como mínimo:</li><li>Memoria descriptiva de la propuesta</li><li>Sustento del interés colectivo</li><li>Descripción del servicio accesorio o complementario, incluyendo la ubicación, los planos de distribución, el área de ocupación o aprovechamiento, el plazo, las condiciones de operación, los criterios de accesibilidad y circulación.</li><li>Análisis de compatibilidad con la finalidad del área verde, el cual debe priorizar la implementación de riego sostenible, eficiencia hídrica</li><li>Valorización de residuos vegetales</li><li>Educación ambiental</li><li>Plan de Manejo de Áreas Verdes y Arbolado Urbano</li><li>Cuando la propuesta implique exclusividad de uso, ocupación o aprovechamiento de superficie, deberá precisar el área ocupada, el porcentaje que representa respecto de la superficie total del área verde de administración especial, el cálculo acumulado de ocupaciones existentes y proyectadas, y la forma en que se garantiza su ubicación desconcentrada.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a6b7a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a6b7a">Art.&nbsp;89</span><span class="art-name">Evaluación técnica de compatibilidad</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La entidad de administración especial evaluará que la propuesta sea accesoria o complementaria, compatible con la escala, capacidad de carga y finalidad del área verde, y que no afecte la cobertura vegetal, el arbolado urbano, la funcionalidad ambiental, la continuidad paisajística, la accesibilidad, el libre tránsito ni el disfrute visual de la ciudadanía.</li><li>Para verificar el límite del quince por ciento (15 %), se tomará como base la superficie total del área verde de administración especial reconocida en el inventario de áreas verdes, ficha técnica, título de administración o instrumento de gestión correspondiente. La ocupación deberá evaluarse de manera acumulada, considerando las ocupaciones existentes y las propuestas.</li><li>En proyectos que utilicen el subsuelo y no pongan en peligro el uso público de la superficie, el límite del quince por ciento (15 %) no será aplicable al área subterránea; sin perjuicio de que los componentes permanentes en superficie sean evaluados y, de implicar exclusividad de uso u ocupación, computados dentro del límite correspondiente.</li></ul></div>
+</div><div class="art-card" style="--ac:#4a6b7a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a6b7a">Art.&nbsp;90</span><span class="art-name">Opinión, concurso público y comunicaciones obligatorias</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La Subgerencia de Gestión Ambiental emitirá opinión técnica ambiental favorable, sustentada en Informe Técnico, sobre la compatibilidad de la propuesta con el área verde, el arbolado urbano, la funcionalidad ambiental, el paisaje, el uso público, la desconcentración y el límite máximo de quince por ciento (15 %), cuando corresponda, así como de la idoneidad de las acciones de sostenibilidad propuestas.</li><li>Dicha opinión será comunicada mediante oficio a la entidad administradora de áreas verdes de uso público competente, y no constituye autorización, concesión, permiso, licencia ni título habilitante para la participación privada, ni exonera al privado de obtener las autorizaciones que correspondan conforme a la normativa aplicable.</li><li>La autorización, aprobación o formalización de la participación privada será tramitada por la entidad administradora de áreas verdes de uso público correspondiente, conforme a la Ley N° 31199, su Reglamento y demás normativa aplicable.</li><li>La entidad administradora de áreas verdes de uso público correspondiente, deberá comunicar el acto aprobado a la Contraloría General de la República y a la Superintendencia Nacional de Bienes Estatales, dentro del plazo máximo de diez (10) días calendario computados desde su emisión, bajo responsabilidad.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#4a6b7a;color:#4a6b7a">Cap. II: Recursos generados por participación privada</div><div class="art-card" style="--ac:#4a6b7a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a6b7a">Art.&nbsp;91</span><span class="art-name">Trazabilidad y reporte de recursos</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Las entidades administradoras deberán mantener información trazable sobre la recaudación, asignación y ejecución de los recursos generados por participación privada en áreas verdes de administración especial, conforme a sus instrumentos de gestión y normativa aplicable. Las entidades administradoras priorizarán estos recursos para el financiamiento directo de las intervenciones reguladas en la presente norma, con el fin de beneficiar a las áreas verdes</li><li>Dicha información deberá incorporarse en el reporte anual de gestión del área verde o instrumento equivalente, identificando los recursos percibidos, su destino y las acciones financiadas, pudiendo ser remitida a la Subgerencia de Gestión Ambiental para fines de seguimiento del Sistema Metropolitano de Áreas Verdes.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#4a6b7a;color:#4a6b7a">Cap. III: Anuncios y avisos publicitarios</div><div class="art-card" style="--ac:#4a6b7a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#4a6b7a">Art.&nbsp;92</span><span class="art-name">Criterios técnicos para anuncios y elementos informativos</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La instalación de anuncios, avisos publicitarios, elementos de publicidad exterior, señalética u otros elementos informativos en áreas verdes de uso público se rige por la normativa metropolitana vigente sobre publicidad exterior, sin perjuicio de los criterios de protección ambiental, paisajística y del arbolado urbano previstos en la Ordenanza y el presente Reglamento.</li><li>Cuando la propuesta pueda afectar cobertura vegetal, arbolado urbano, suelo, sistema de riego, accesibilidad, uso público, continuidad paisajística o disfrute visual, la autoridad competente en publicidad exterior podrá solicitar opinión técnica al área responsable de áreas verdes o a la Subgerencia de Gestión Ambiental, según corresponda, sin que dicha opinión sustituya la autorización municipal respectiva.</li><li>Queda prohibida la instalación, fijación, apoyo o anclaje de elementos publicitarios sobre fustes, ramas, copas, raíces o zonas de protección de la especie arbórea.</li><li>Procedimiento sujeto a la normativa metropolitana vigente y criterios de no afectación ambiental, paisajística y del arbolado urbano.</li></ul></div>
+</div></div></div>
+<div class="panel" id="tab-titulo9"><div class="phdr" style="background:linear-gradient(135deg,#3d6b5a18 0%,#eef5f1 100%);border-left:5px solid #3d6b5a">
+  <div class="phdr-tree"><svg viewBox="0 0 40 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="44" width="4" height="12" fill="#5a3a1a" rx="1"/><polygon points="20,6 7,30 33,30" fill="#2d7a4f"/><polygon points="20,16 9,36 31,36" fill="#245c38" opacity=".85"/><ellipse cx="20" cy="42" rx="8" ry="4" fill="#38845a" opacity=".4"/></svg></div>
+  <div>
+    <div class="phdr-title" style="color:#3d6b5a">TÍTULO IX — Educación Ambiental y Participación Ciudadana</div>
+    <div class="phdr-sub">Arts. 93–96 &nbsp;·&nbsp; <strong>4 artículos</strong></div>
+  </div>
+</div>
+<div class="summary-block" style="border-left:4px solid #3d6b5a">
+  <div class="summary-label" style="color:#3d6b5a">&#128196; Resumen del título</div>
+  <p class="summary-text">Promueve la cultura ambiental ciudadana en torno a las áreas verdes y el arbolado urbano a través de programas de educación, el Concurso Metropolitano &quot;Lima Ciudad Jardín&quot;, la Escuela Metropolitana de Jardineros y el fomento de la agricultura urbana domiciliaria como complemento al sistema de áreas verdes de Lima.</p>
+  <div class="hl-label" style="color:#3d6b5a">&#9733; Puntos clave</div>
+  <ul class="hl-list"><li>Educación ambiental: la MML, las municipalidades distritales y entidades administradoras promoverán programas de sensibilización sobre la importancia del verde urbano.</li><li>Concurso Metropolitano &quot;Lima Ciudad Jardín&quot;: reconoce a los distritos, entidades y ciudadanos con mejores prácticas en gestión de áreas verdes.</li><li>Escuela Metropolitana de Jardineros: programa de capacitación técnica en mantenimiento de áreas verdes y arbolado urbano para trabajadores municipales y ciudadanos.</li><li>Agricultura urbana domiciliaria: se promueve la integración de huertos y jardines productivos en predios privados como complemento al sistema metropolitano.</li></ul>
+</div>
+<div class="chap"><div class="chap-hd" style="border-left-color:#3d6b5a;color:#3d6b5a">Cap. I: Educación y participación ciudadana</div><div class="art-card" style="--ac:#3d6b5a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d6b5a">Art.&nbsp;93</span><span class="art-name">Promoción de la educación ambiental y participación ciudadana</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La Municipalidad Metropolitana de Lima, las municipalidades distritales y las entidades administradoras promoverán programas, campañas, talleres, voluntariados y actividades de sensibilización orientadas a la conservación, protección, mantenimiento y uso sostenible de las áreas verdes y del arbolado urbano, pudiendo articularse con el Programa Municipal EDUCCA, programas distritales EDUCCA, instituciones educativas, organizaciones vecinales, universidades, colegios profesionales y sociedad civil.</li><li>Las quejas, denuncias, recomendaciones o sugerencias ciudadanas sobre áreas verdes y arbolado urbano serán atendidas por la municipalidad distrital o entidad administradora de áreas verdes de uso público competente, según el ámbito de administración del espacio. Cuando se adviertan presuntas afectaciones, intervenciones no autorizadas, incumplimientos o riesgos, la entidad competente deberá adoptar las acciones técnicas, administrativas o de derivación que correspondan.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#3d6b5a;color:#3d6b5a">Cap. II: Concurso Metropolitano &quot;Lima Ciudad Jardín&quot;</div><div class="art-card" style="--ac:#3d6b5a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d6b5a">Art.&nbsp;94</span><span class="art-name">Organización, bases y reconocimiento</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>El Concurso Metropolitano “Lima Ciudad Jardín” se realizará cada dos años bajo conducción de la Gerencia de Servicios a la Ciudad y Gestión Ambiental, en coordinación con la Subgerencia de Gestión Ambiental y los actores del Sistema Metropolitano de Áreas Verdes.</li><li>La convocatoria se realizará en el mes de abril y el reconocimiento preferentemente en el mes de setiembre del año en que corresponda su realización. Las bases establecerán las categorías, requisitos de postulación, criterios de evaluación, cronograma y procedimiento aplicable. Los resultados serán publicados e incorporados al Sistema Metropolitano de Información Ambiental como repositorio de buenas prácticas replicables.</li><li>Asimismo, la organización y ejecución del Concurso Metropolitano “Lima Ciudad Jardín” contará con la participación de la Oficina General de Comunicaciones y Relaciones Interinstitucionales, la cual brindará apoyo en la validación de las bases y de las piezas comunicacionales, así como en la difusión de la convocatoria, el desarrollo del concurso y la promoción de sus resultados ante la comunidad.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#3d6b5a;color:#3d6b5a">Cap. III: Escuela Metropolitana de Jardineros</div><div class="art-card" style="--ac:#3d6b5a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d6b5a">Art.&nbsp;95</span><span class="art-name">Implementación y contenidos mínimos</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>La Escuela Metropolitana de Jardineros será implementada y gestionada por el Servicio de Parques de Lima (SERPAR), en coordinación con la Gerencia de Servicios a la Ciudad y Gestión Ambiental y los demás actores del Sistema Metropolitano de Áreas Verdes. En este marco, SERPAR será la entidad responsable de diseñar el contenido de los cursos, suscribir convenios de cooperación con instituciones especializadas para optimizar la oferta académica, definir el número de vacantes por convocatoria y gestionar las alianzas estratégicas para la emisión de las certificaciones correspondientes.</li><li>La Municipalidad Metropolitana de Lima, por medio de la Oficina General de Comunicaciones y Relaciones Interinstitucionales en la difusión de la convocatoria</li><li>Sus contenidos mínimos comprenderán conocimientos esenciales en jardinería urbana, tales como:</li><li>Identificación botánica</li><li>Propagación vegetal</li><li>Poda</li><li>Uso de herramientas de jardinería</li><li>Manejo de maquinarias menores</li><li>Preparación de sustrato</li><li>Manejo del suelo</li><li>Reconocimiento y manejo integrado de plagas y enfermedades en plantas ornamentales</li><li>Manejo de sistemas de riego</li><li>Uso adecuado de equipos de protección personal (EPPS)</li><li>Entre otros.</li></ul></div>
+</div></div><div class="chap"><div class="chap-hd" style="border-left-color:#3d6b5a;color:#3d6b5a">Cap. IV: Agricultura Urbana Domiciliaria</div><div class="art-card" style="--ac:#3d6b5a">
+  <div class="art-head" onclick="this.parentElement.classList.toggle('expanded')">
+    <div class="art-hl"><span class="art-num" style="background:#3d6b5a">Art.&nbsp;96</span><span class="art-name">Promoción de la agricultura urbana</span></div>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="art-body"><ul class="art-ul"><li>Las municipalidades y demás entidades administradoras de áreas verdes de uso y dominio público son las encargadas se la planificación, programación y ejecución de los talleres de agricultura urbana domiciliaria por medio del programa EDUCCA correspondiente a su jurisdicción, dichas capacitaciones deben ejecutarse en los parques y demás espacios públicos adecuados para la educación y sensibilización ambiental, adicional a ello, deben realizar la verificación de que la población ejecute lo aprendido en sus domicilios y no en las áreas verdes de uso y dominio público.</li></ul></div>
+</div></div></div></div>
+<script>
+function showTab(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  var b=document.querySelector('.tab[data-tab="'+id+'"]');
+  if(b) b.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
